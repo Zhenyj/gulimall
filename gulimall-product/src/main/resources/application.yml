@@ -1,0 +1,35 @@
+spring:
+#  数据源
+  datasource:
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.136.10/gulimall_pms
+  cloud:
+    # Nacos注册中心
+    nacos:
+      server-addr: 192.168.136.10:8848 # Nacos注册中心地址
+
+    alicloud:
+      # 阿里巴巴对象存储OSS
+      access-key: LTAI5t8UkdrDyhgif4V3Ui1L
+      secret-key: 1aedjRQld2T9e6Ar84jGMpra43zbb4
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com
+  application:
+    name: gulimall-product #应用名
+mybatis-plus:
+#  mapper映射文件位置
+  mapper-locations: classpath*:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto # 主键自增
+#      logic-delete-field:
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+server:
+  port: 10000 # 服务端口
+# 修改日志级别，com.zyj.gulimall包下的都会打印日志
+logging:
+  level:
+    com.zyj.gulimall: debug

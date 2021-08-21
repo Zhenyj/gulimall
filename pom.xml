@@ -9,12 +9,17 @@
     <description>聚合服务</description>
     <packaging>pom</packaging>
 
-<!--  聚合MAVEN  -->
+    <!--  聚合MAVEN  -->
     <modules>
         <module>gulimall-coupon</module>
         <module>gulimall-member</module>
         <module>gulimall-order</module>
         <module>gulimall-product</module>
         <module>gulimall-ware</module>
+        <module>renren-fast</module>
+        <module>renren-generator</module>
+        <module>gulimall-common</module>
+        <module>gulimall-gateway</module>
+        <module>gulimall-third-party</module>
     </modules>
 </project>
