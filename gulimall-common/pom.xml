@@ -91,6 +91,17 @@
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
             <version>3.0.3</version>
         </dependency>
+        <!-- 数据校验 -->
+<!--        <dependency>-->
+<!--            <groupId>org.hibernate.validator</groupId>-->
+<!--            <artifactId>hibernate-validator</artifactId>-->
+<!--            <version>7.0.0.Alpha6</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
     </dependencies>
 
     <!-- 统一对SpringCloud Alibaba依赖进行版本控制 -->
