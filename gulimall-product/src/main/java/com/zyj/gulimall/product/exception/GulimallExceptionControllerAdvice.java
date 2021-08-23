@@ -27,7 +27,8 @@ import java.util.Map;
 public class GulimallExceptionControllerAdvice {
 
     @ExceptionHandler(value = Throwable.class)
-    public R handleException(){
+    public R handleException(Throwable throwable){
+        log.error("错误：", throwable);
         return R.error(BizCodeEnum.UNKNOW_EXCEPTION.getCode(),BizCodeEnum.UNKNOW_EXCEPTION.getMsg());
     }
 
