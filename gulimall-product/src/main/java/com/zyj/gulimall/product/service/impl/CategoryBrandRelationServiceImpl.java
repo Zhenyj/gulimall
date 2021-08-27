@@ -1,5 +1,11 @@
 package com.zyj.gulimall.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.zyj.gulimall.product.dao.BrandDao;
+import com.zyj.gulimall.product.dao.CategoryDao;
+import com.zyj.gulimall.product.entity.BrandEntity;
+import com.zyj.gulimall.product.entity.CategoryEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -11,10 +17,17 @@ import com.zyj.common.utils.Query;
 import com.zyj.gulimall.product.dao.CategoryBrandRelationDao;
 import com.zyj.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.zyj.gulimall.product.service.CategoryBrandRelationService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("categoryBrandRelationService")
 public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandRelationDao, CategoryBrandRelationEntity> implements CategoryBrandRelationService {
+
+    @Autowired
+    CategoryDao categoryDao;
+
+    @Autowired
+    BrandDao brandDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -24,6 +37,34 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public void saveDetail (CategoryBrandRelationEntity categoryBrandRelation) {
+        Long brandId = categoryBrandRelation.getBrandId();
+        Long catelogId = categoryBrandRelation.getCatelogId();
+        // 1、查询详细名字
+        CategoryEntity categoryEntity = categoryDao.selectById(catelogId);
+        BrandEntity brandEntity = brandDao.selectById(brandId);
+        categoryBrandRelation.setCatelogName(categoryEntity.getName());
+        categoryBrandRelation.setBrandName(brandEntity.getName());
+        // 2、保存数据
+        baseMapper.insert(categoryBrandRelation);
+    }
+
+    @Transactional
+    @Override
+    public void updateBrand (Long brandId, String name) {
+        CategoryBrandRelationEntity relationEntity = new CategoryBrandRelationEntity();
+        relationEntity.setBrandId(brandId);
+        relationEntity.setBrandName(name);
+        this.update(relationEntity, new UpdateWrapper<CategoryBrandRelationEntity>().eq("brand_id", brandId));
+    }
+
+    @Transactional
+    @Override
+    public void updateCategory (Long catId, String name) {
+        baseMapper.updateCategory(catId,name);
     }
 
 }
