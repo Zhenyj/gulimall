@@ -105,6 +105,16 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return paths.toArray(new Long[paths.size()]);
     }
 
+    // [孙,子,父]
+    private void findParentPath(List<Long> paths,Long catelogId){
+        // 1、查找父id
+        paths.add(catelogId);
+        CategoryEntity byId = this.getById(catelogId);
+        if(byId.getParentCid()!=0){
+            findParentPath(paths, byId.getParentCid());
+        }
+    }
+
     /**
      * 级联更新所有关联的数据
      * @param category
@@ -115,16 +125,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         this.updateById(category);
         if(StringUtils.hasText(category.getName())){
             categoryBrandRelationService.updateCategory(category.getCatId(),category.getName());
-        }
-    }
-
-    // [孙,子,父]
-    private void findParentPath(List<Long> paths,Long catelogId){
-        // 1、查找父id
-        paths.add(catelogId);
-        CategoryEntity byId = this.getById(catelogId);
-        if(byId.getParentCid()!=0){
-            findParentPath(paths, byId.getParentCid());
         }
     }
 }
