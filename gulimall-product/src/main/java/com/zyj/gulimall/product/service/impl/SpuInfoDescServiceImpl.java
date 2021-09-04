@@ -11,6 +11,7 @@ import com.zyj.common.utils.Query;
 import com.zyj.gulimall.product.dao.SpuInfoDescDao;
 import com.zyj.gulimall.product.entity.SpuInfoDescEntity;
 import com.zyj.gulimall.product.service.SpuInfoDescService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("spuInfoDescService")

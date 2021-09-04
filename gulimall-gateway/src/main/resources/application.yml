@@ -47,7 +47,7 @@ spring:
             - Path=/api/ware/**
           filters:
             - RewritePath=/api/(?<segment>.*),/$\{segment}
-
+# 第三方服务
         - id: third_party_route
           uri: lb://gulimall-third-party
           predicates:
@@ -64,7 +64,3 @@ spring:
           filters:
             # 路径重写,http://localhost:88/api/captcha.jpg===>http://localhost:8080/renren-fast/captcha.jpg
             - RewritePath=/api/(?<segment>.*),/renren-fast/$\{segment}
-
-
-
-
