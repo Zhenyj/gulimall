@@ -8,7 +8,6 @@ import com.zyj.gulimall.coupon.service.MemberPriceService;
 import com.zyj.gulimall.coupon.service.SkuLadderService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -83,5 +82,4 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao
         }).collect(Collectors.toList());
         memberPriceService.saveBatch(memberPriceEntities);
     }
-
 }

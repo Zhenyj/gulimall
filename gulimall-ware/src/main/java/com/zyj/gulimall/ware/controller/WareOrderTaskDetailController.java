@@ -3,7 +3,6 @@ package com.zyj.gulimall.ware.controller;
 import java.util.Arrays;
 import java.util.Map;
 
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +20,9 @@ import com.zyj.common.utils.R;
 /**
  * 库存工作单
  *
- * @author zyj
- * @email zyj@gmail.com
- * @date 2021-08-01 21:59:48
+ * @author leifengyang
+ * @email leifengyang@gmail.com
+ * @date 2019-10-08 09:59:40
  */
 @RestController
 @RequestMapping("ware/wareordertaskdetail")

@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: 192.168.136.10:8848
+  application:
+    name: gulimall-search
+# elasticsearch
+elasticsearch:
+  hostname: 192.168.136.10
+  port: 9200

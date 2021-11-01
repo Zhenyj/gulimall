@@ -1,52 +1,30 @@
 package com.zyj.gulimall.product.service.impl;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import com.zyj.common.to.SkuReductionTo;
-import com.zyj.common.to.SpuBoundsTo;
-import com.zyj.common.utils.R;
-import com.zyj.gulimall.product.entity.AttrEntity;
-import com.zyj.gulimall.product.entity.ProductAttrValueEntity;
-import com.zyj.gulimall.product.entity.SkuImagesEntity;
-import com.zyj.gulimall.product.entity.SkuInfoEntity;
-import com.zyj.gulimall.product.entity.SkuSaleAttrValueEntity;
-import com.zyj.gulimall.product.entity.SpuImagesEntity;
-import com.zyj.gulimall.product.entity.SpuInfoDescEntity;
-import com.zyj.gulimall.product.feign.CouponFeignService;
-import com.zyj.gulimall.product.service.AttrService;
-import com.zyj.gulimall.product.service.ProductAttrValueService;
-import com.zyj.gulimall.product.service.SkuImagesService;
-import com.zyj.gulimall.product.service.SkuInfoService;
-import com.zyj.gulimall.product.service.SkuSaleAttrValueService;
-import com.zyj.gulimall.product.service.SpuImagesService;
-import com.zyj.gulimall.product.service.SpuInfoDescService;
-import com.zyj.gulimall.product.vo.Attr;
-import com.zyj.gulimall.product.vo.BaseAttrs;
-import com.zyj.gulimall.product.vo.Bounds;
-import com.zyj.gulimall.product.vo.Images;
-import com.zyj.gulimall.product.vo.Skus;
-import com.zyj.gulimall.product.vo.SpuSaveVo;
-import org.aspectj.weaver.ast.Var;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zyj.common.to.SkuHasStockVo;
+import com.zyj.common.to.SkuReductionTo;
+import com.zyj.common.to.SpuBoundsTo;
+import com.zyj.common.to.es.SkuEsModel;
 import com.zyj.common.utils.PageUtils;
 import com.zyj.common.utils.Query;
-
+import com.zyj.common.utils.R;
 import com.zyj.gulimall.product.dao.SpuInfoDao;
-import com.zyj.gulimall.product.entity.SpuInfoEntity;
-import com.zyj.gulimall.product.service.SpuInfoService;
+import com.zyj.gulimall.product.entity.*;
+import com.zyj.gulimall.product.feign.CouponFeignService;
+import com.zyj.gulimall.product.feign.WareFeignService;
+import com.zyj.gulimall.product.service.*;
+import com.zyj.gulimall.product.vo.*;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service("spuInfoService")
@@ -76,25 +54,33 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     @Autowired
     CouponFeignService couponFeignService;
 
+    @Autowired
+    BrandService brandService;
+
+    @Autowired
+    CategoryService categoryService;
+
+    @Autowired
+    WareFeignService wareFeignService;
+
     @Override
-    public PageUtils queryPage (Map<String, Object> params) {
+    public PageUtils queryPage(Map<String, Object> params) {
         IPage<SpuInfoEntity> page = this.page(
                 new Query<SpuInfoEntity>().getPage(params),
                 new QueryWrapper<SpuInfoEntity>()
         );
-
         return new PageUtils(page);
     }
 
     @Transactional
     @Override
-    public void saveSpuInfo (SpuSaveVo vo) {
+    public void saveSpuInfo(SpuSaveVo vo) {
         // 1、保存spu基本信息，pms_spu_info
         SpuInfoEntity spuInfoEntity = new SpuInfoEntity();
         BeanUtils.copyProperties(vo, spuInfoEntity);
         spuInfoEntity.setCreateTime(new Date());
         spuInfoEntity.setUpdateTime(new Date());
-        this.saveBaseSpuInfo(spuInfoEntity);
+        this.baseMapper.insert(spuInfoEntity);
 
         // 2、保存spu的描述，pms_spu_info_desc
         List<String> decript = vo.getDecript();
@@ -191,9 +177,105 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }
     }
 
-    @Transactional
     @Override
-    public void saveBaseSpuInfo (SpuInfoEntity spuInfoEntity) {
-        this.baseMapper.insert(spuInfoEntity);
+    public PageUtils queryPageByCondition(Map<String, Object> params) {
+        QueryWrapper<SpuInfoEntity> wrapper = new QueryWrapper<>();
+
+        String key = (String) params.get("key");
+        if (StringUtils.hasText(key)) {
+            wrapper.and((w) -> {
+                w.eq("id", key).or().like("spu_name", key);
+            });
+        }
+
+        String brandId = (String) params.get("brandId");
+        if (StringUtils.hasText(brandId)) {
+            wrapper.and((w) -> {
+                w.eq("brand_id", brandId);
+            });
+        }
+
+        String status = (String) params.get("status");
+        if (StringUtils.hasText(status)) {
+            wrapper.eq("publish_status", status);
+        }
+
+        String catelogId = (String) params.get("catelogId");
+        if (StringUtils.hasText(catelogId)) {
+            wrapper.eq("catalog_id", catelogId);
+        }
+
+        IPage<SpuInfoEntity> page = this.page(
+                new Query<SpuInfoEntity>().getPage(params),
+                wrapper
+        );
+        return new PageUtils(page);
+    }
+
+
+    @Override
+    public void up(Long spuId) {
+
+        // 组装需要的数据
+        // 1、查出当前spu对应的所有sku信息，品牌名字等
+        List<SkuInfoEntity> skus = skuInfoService.getSkuBySpuId(spuId);
+        List<Long> skuIds = skus.stream().map(SkuInfoEntity::getSkuId).collect(Collectors.toList());
+
+        // 查询当前sku的所有规格属性，同个spu下的规格属性是一样的，所以只需要查一遍即可
+        List<ProductAttrValueEntity> baseAttr = productAttrValueService.baseAttrListForSpu(spuId);
+        List<Long> attrIds = baseAttr.stream().map(attr -> {
+            return attr.getAttrId();
+        }).collect(Collectors.toList());
+
+        List<Long> searchAttrIds = attrService.selectSearchAttrIds(attrIds);
+        Set<Long> idSet = new HashSet<>(searchAttrIds);
+        List<SkuEsModel.Attrs> attrs = new ArrayList<>();
+        List<SkuEsModel.Attrs> attrsList = baseAttr.stream().filter(item -> {
+            return idSet.contains(item.getAttrId());
+        }).map(item -> {
+            SkuEsModel.Attrs attrs1 = new SkuEsModel.Attrs();
+            BeanUtils.copyProperties(item, attrs1);
+            return attrs1;
+        }).collect(Collectors.toList());
+
+        // 发送远程调用，库存系统是否有库存
+        Map<Long, Boolean> skuStockMap = null;
+        try{
+            R<List<SkuHasStockVo>> skuHasStock = wareFeignService.getSkuHasStock(skuIds);
+            skuStockMap = skuHasStock.getData().stream()
+                    .collect(Collectors.toMap(SkuHasStockVo::getSkuId,SkuHasStockVo::getHasStock));
+        }catch (Exception e){
+            log.error("库存服务查询异常:原因{}",e);
+        }
+
+        // 2、封装每个sku信息
+        Map<Long, Boolean> finalSkuStockMap = skuStockMap;
+        List<SkuEsModel> upProducts = skus.stream().map(sku -> {
+            SkuEsModel esModel = new SkuEsModel();
+            BeanUtils.copyProperties(sku, esModel);
+            esModel.setSkuPrice(sku.getPrice());
+            esModel.setSkuImg(sku.getSkuDefaultImg());
+            esModel.setCatalogId(sku.getCatalogId());
+
+            // 是否有库存
+            if(finalSkuStockMap != null){
+                esModel.setHasStock(finalSkuStockMap.get(sku.getSkuId()));
+            }else{
+                esModel.setHasStock(false);
+            }
+            // 热度评分，默认0
+            esModel.setHotScore(0L);
+
+            // 查询品牌和分类的名字信息
+            BrandEntity brand = brandService.getById(sku.getBrandId());
+            esModel.setBrandName(brand.getName());
+            CategoryEntity category = categoryService.getById(sku.getCatalogId());
+            esModel.setCatalogName(category.getName());
+
+            // 设置检索属性
+            esModel.setAttrs(attrsList);
+
+            return esModel;
+        }).collect(Collectors.toList());
     }
 }
