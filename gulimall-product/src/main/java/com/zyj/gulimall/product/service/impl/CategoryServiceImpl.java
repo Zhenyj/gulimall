@@ -1,29 +1,29 @@
 package com.zyj.gulimall.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zyj.common.exception.BizCodeEnum;
+import com.zyj.common.utils.PageUtils;
+import com.zyj.common.utils.Query;
+import com.zyj.gulimall.product.dao.CategoryDao;
+import com.zyj.gulimall.product.entity.CategoryEntity;
 import com.zyj.gulimall.product.service.CategoryBrandRelationService;
+import com.zyj.gulimall.product.service.CategoryService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.zyj.common.utils.PageUtils;
-import com.zyj.common.utils.Query;
-
-import com.zyj.gulimall.product.dao.CategoryDao;
-import com.zyj.gulimall.product.entity.CategoryEntity;
-import com.zyj.gulimall.product.service.CategoryService;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-
-
+@Slf4j
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
 
@@ -126,5 +126,16 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         if(StringUtils.hasText(category.getName())){
             categoryBrandRelationService.updateCategory(category.getCatId(),category.getName());
         }
+    }
+
+    @Override
+    public List<CategoryEntity> getLevel1Categorys() {
+        List<CategoryEntity> categoryEntities = baseMapper.selectList(new QueryWrapper<CategoryEntity>()
+                .eq("parent_id", 0));
+        if(CollectionUtils.isEmpty(categoryEntities)){
+            log.error(BizCodeEnum.PRODUCT_CATEGORY_EXCEPTION.getMsg());
+            throw new RuntimeException(BizCodeEnum.PRODUCT_CATEGORY_EXCEPTION.getMsg());
+        }
+        return categoryEntities;
     }
 }
