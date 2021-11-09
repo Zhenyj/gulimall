@@ -2,20 +2,12 @@ package com.zyj.gulimall.product;
 
 import com.zyj.gulimall.product.entity.BrandEntity;
 import com.zyj.gulimall.product.service.BrandService;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.Assert;
-
-import javax.annotation.Resource;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
 @SpringBootTest
 class GulimallProductApplicationTests {
