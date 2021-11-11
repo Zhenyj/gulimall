@@ -32,7 +32,7 @@ public class IndexController {
     }
 
     @ResponseBody
-    @GetMapping("index/json/catalog.json")
+    @GetMapping("/index/json/catalog.json")
     public Map<String, List<Catalog2Vo>> getCatalogJson(){
         Map<String, List<Catalog2Vo>> map = categoryService.getCatalogJson();
         return map;

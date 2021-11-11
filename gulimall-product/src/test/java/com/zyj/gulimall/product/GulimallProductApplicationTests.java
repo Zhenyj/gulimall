@@ -8,6 +8,10 @@ import org.apache.commons.lang.math.RandomUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+
+import java.util.UUID;
 
 @SpringBootTest
 class GulimallProductApplicationTests {
@@ -18,8 +22,21 @@ class GulimallProductApplicationTests {
     //@Resource
     //OSSClient ossClient;
 
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
+
     @Test
-    void contextLoads () {
+    void testStringRedisTemplate() {
+        ValueOperations<String, String> ops = stringRedisTemplate.opsForValue();
+        // 保存
+        ops.set("hello", "world" + UUID.randomUUID().toString());
+        // 查询
+        String hello = ops.get("hello");
+        System.out.println("之前保存的数据是:" + hello);
+    }
+
+    @Test
+    void contextLoads() {
         BrandEntity brandEntity = new BrandEntity();
 
         brandEntity.setName("华为");
@@ -28,7 +45,7 @@ class GulimallProductApplicationTests {
     }
 
     @Test
-    void textUpdate () {
+    void textUpdate() {
         BrandEntity brandEntity = new BrandEntity();
         brandEntity.setBrandId(1L);
         brandEntity.setDescript("华为P50");
@@ -37,7 +54,7 @@ class GulimallProductApplicationTests {
 
 
     @Test
-    void commonsTest () {
+    void commonsTest() {
         System.out.println(RandomUtils.nextInt(101));
 
         // 生成 0 ~ Double.MAX_VALUE 之间的双精度数值

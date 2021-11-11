@@ -1,5 +1,7 @@
 package com.zyj.gulimall.product.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,6 +15,7 @@ import com.zyj.gulimall.product.service.CategoryService;
 import com.zyj.gulimall.product.vo.Catalog2Vo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -22,18 +25,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
 
-    //@Autowired
-    //CategoryDao categoryDao;
-
     @Autowired
     CategoryBrandRelationService categoryBrandRelationService;
 
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -144,43 +147,97 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return categoryEntities;
     }
 
+    /**
+     * TODO 会产生对外内存溢出:OutOfDirectMemoryError
+     * 1) 、springboot2.e以后默认使用Lettuce作为操作redis的客户端。它使用netty进行网络通信。
+     * 2) 、lettuce的bug导致netty堆外内存溢出-Xmx300m;
+     * netty如果没有指定堆外内存，默认使用-Xmx300m可以通过-Dio.netty.maxDirectMemory进行设置
+     * 解决方案:不能使用-Dio.netty.maxDirectNemory只去调大堆外内存。
+     * 1)、升级lettuce客户端。
+     * 2)、切换使用jedis
+     */
     @Override
     public Map<String, List<Catalog2Vo>> getCatalogJson() {
+        //给缓存中放json字符串，拿出的json字符串，还用逆转为能用的对象类型;【序列化与反序列化】
+        /**
+         * 1、空结果缓存:解决缓存穿透
+         * 2、设置过期时间(加随机值):解决缓存雪崩
+         * 3、加锁:解决缓存击穿
+         */
+        // 1、缓存
+        String catalogJSON = redisTemplate.opsForValue().get("catalogJSON");
+        if (!StringUtils.hasLength(catalogJSON)) {
+            // 缓存中没有数据,查询数据库
+            System.out.println("缓存不命中...准备查询数据库...");
+            Map<String, List<Catalog2Vo>> catalogJsonFromDb = getCatalogJsonFromDb();
+            return catalogJsonFromDb;
+        }
 
-        List<CategoryEntity> selectList = baseMapper.selectList(null);
+        // 缓存中有数据,转为指定的对象
+        System.out.println("命中缓存...直接返回...");
+        Map<String, List<Catalog2Vo>> result = JSON.parseObject(catalogJSON,
+                new TypeReference<Map<String, List<Catalog2Vo>>>() {
+                });
+        return result;
+    }
 
-        // 查询所有一级分类
-        List<CategoryEntity> level1Categorys = getParentCid(selectList, 0L);
-
-        // 封装数据
-        Map<String, List<Catalog2Vo>> Catalog2VoMap = level1Categorys.stream().collect(Collectors.toMap(k -> k.getCatId().toString(), v -> {
-            // 查询二级分类
-            List<CategoryEntity> categoryEntities = getParentCid(selectList, v.getParentCid());
-            // 封装结果
-            List<Catalog2Vo> Catalog2Vos = null;
-            if (!CollectionUtils.isEmpty(categoryEntities)) {
-                Catalog2Vos = categoryEntities.stream().map(l2 -> {
-                    // 查找当前二级分类的三级分类数据
-                    List<CategoryEntity> categoryEntities1 = getParentCid(selectList, l2.getParentCid());
-                    List<Catalog2Vo.Catalog3Vo> catalog3Vos = null;
-                    if (!CollectionUtils.isEmpty(categoryEntities1)) {
-                        catalog3Vos = categoryEntities1.stream().map(l3 -> {
-                            Catalog2Vo.Catalog3Vo Catalog3Vo = new Catalog2Vo.Catalog3Vo(l2.getCatId().toString(),
-                                    l3.getCatId().toString(), l3.getName());
-                            return Catalog3Vo;
-                        }).collect(Collectors.toList());
-                    } else {
-                        log.info("当前分类:{},没有三级分类", l2.getCatId());
-                    }
-
-                    Catalog2Vo Catalog2Vo = new Catalog2Vo(v.getCatId().toString(), catalog3Vos,
-                            l2.getCatId().toString(), l2.getName());
-                    return Catalog2Vo;
-                }).collect(Collectors.toList());
+    /**
+     * 从数据库查询分类数据
+     *
+     * @return
+     */
+    public Map<String, List<Catalog2Vo>> getCatalogJsonFromDb() {
+        // TODO 本地锁: synchronized，uc (Loch)，在分布式情况下，想要锁住所有，必须使用分布式锁
+        synchronized (this) {
+            //得到锁以后，我们应该再去缓存中确定一次，如果没有才需要继续查询
+            String catalogJSON = redisTemplate.opsForValue().get("catalogJSON");
+            if (StringUtils.hasLength(catalogJSON)) {
+                // 缓存不为空直接返回
+                Map<String, List<Catalog2Vo>> result = JSON.parseObject(catalogJSON,
+                        new TypeReference<Map<String, List<Catalog2Vo>>>() {
+                        });
+                return result;
             }
-            return Catalog2Vos;
-        }));
-        return Catalog2VoMap;
+            System.out.println("查询数据库...");
+            List<CategoryEntity> selectList = baseMapper.selectList(null);
+
+            // 查询所有一级分类
+            List<CategoryEntity> level1Categorys = getParentCid(selectList, 0L);
+
+            // 封装数据
+            Map<String, List<Catalog2Vo>> Catalog2VoMap = level1Categorys.stream().collect(Collectors.toMap(k -> k.getCatId().toString(), v -> {
+                // 查询二级分类
+                List<CategoryEntity> categoryEntities = getParentCid(selectList, v.getParentCid());
+                // 封装结果
+                List<Catalog2Vo> Catalog2Vos = null;
+                if (!CollectionUtils.isEmpty(categoryEntities)) {
+                    Catalog2Vos = categoryEntities.stream().map(l2 -> {
+                        // 查找当前二级分类的三级分类数据
+                        List<CategoryEntity> categoryEntities1 = getParentCid(selectList, l2.getParentCid());
+                        List<Catalog2Vo.Catalog3Vo> catalog3Vos = null;
+                        if (!CollectionUtils.isEmpty(categoryEntities1)) {
+                            catalog3Vos = categoryEntities1.stream().map(l3 -> {
+                                Catalog2Vo.Catalog3Vo Catalog3Vo = new Catalog2Vo.Catalog3Vo(l2.getCatId().toString(),
+                                        l3.getCatId().toString(), l3.getName());
+                                return Catalog3Vo;
+                            }).collect(Collectors.toList());
+                        } else {
+                            log.info("当前分类:{},没有三级分类", l2.getCatId());
+                        }
+
+                        Catalog2Vo Catalog2Vo = new Catalog2Vo(v.getCatId().toString(), catalog3Vos,
+                                l2.getCatId().toString(), l2.getName());
+                        return Catalog2Vo;
+                    }).collect(Collectors.toList());
+                }
+                return Catalog2Vos;
+            }));
+            // 将查询出来的数据加入到缓存中,讲对象转为JSON字符串放入缓存,JSON跨语言、跨平台
+            // 在锁里将数据放入缓存中，因为放入缓存时发生IO有延迟可能会导致多次查询数据库
+            String s = JSON.toJSONString(Catalog2VoMap);
+            redisTemplate.opsForValue().set("catalogJSON", s, 1, TimeUnit.DAYS);
+            return Catalog2VoMap;
+        }
     }
 
     private List<CategoryEntity> getParentCid(List<CategoryEntity> categoryEntities, Long parentCid) {

@@ -10,7 +10,6 @@ import java.util.List;
  * @date 2021-10-30 21:35
  **/
 
-
 @Data
 public class SkuEsModel {
 
