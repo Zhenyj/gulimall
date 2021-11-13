@@ -16,15 +16,13 @@ import com.zyj.gulimall.product.vo.Catalog2Vo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -169,7 +167,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         if (!StringUtils.hasLength(catalogJSON)) {
             // 缓存中没有数据,查询数据库
             System.out.println("缓存不命中...准备查询数据库...");
-            Map<String, List<Catalog2Vo>> catalogJsonFromDb = getCatalogJsonFromDb();
+            Map<String, List<Catalog2Vo>> catalogJsonFromDb = getCatalogJsonFromDbWithRedisLock();
             return catalogJsonFromDb;
         }
 
@@ -183,11 +181,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     /**
      * 从数据库查询分类数据
+     * 使用本地锁
      *
      * @return
      */
-    public Map<String, List<Catalog2Vo>> getCatalogJsonFromDb() {
-        // TODO 本地锁: synchronized，uc (Loch)，在分布式情况下，想要锁住所有，必须使用分布式锁
+    public Map<String, List<Catalog2Vo>> getCatalogJsonFromDbWithLocalLock() {
+        // TODO 本地锁: synchronized，juc (Lock)，在分布式情况下，想要锁住所有，必须使用分布式锁
         synchronized (this) {
             //得到锁以后，我们应该再去缓存中确定一次，如果没有才需要继续查询
             String catalogJSON = redisTemplate.opsForValue().get("catalogJSON");
@@ -238,6 +237,95 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
             redisTemplate.opsForValue().set("catalogJSON", s, 1, TimeUnit.DAYS);
             return Catalog2VoMap;
         }
+    }
+
+    /**
+     * 从数据库查询分类数据
+     * 使用redis分布式锁
+     *
+     * @return
+     */
+    public Map<String, List<Catalog2Vo>> getCatalogJsonFromDbWithRedisLock() {
+        // 1、占用分布式锁,setIfAbsent("lock","111");对应redis命令中的set lock 111 NX
+        // set key value nx 如果key不存在，将key设置值为value
+        // 是否占用成功
+        String uuid = UUID.randomUUID().toString();
+        Boolean lock = redisTemplate.opsForValue()
+                .setIfAbsent("lock", uuid,100,TimeUnit.SECONDS);
+        // setIfAbsent("lock", "111",100,TimeUnit.SECONDS) ==> set lock 111 EX 100 NX
+        if(lock){
+            System.out.println("获取分布式锁成功...");
+            Map<String, List<Catalog2Vo>> dataFromDb = null;
+            try{
+                dataFromDb = getDataFromDb();
+            }finally {
+                // 执行成功后,删除锁
+                String script = "if redis.call('get',KEYS[1]) == ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
+                // 删除成功返回1，失败返回0
+                Long lock1 = redisTemplate.execute(new DefaultRedisScript<Long>(script, Long.class),
+                        Arrays.asList("lock"), uuid);
+            }
+            return dataFromDb;
+        }else{
+            System.out.println("获取分布式锁失败...等待重试");
+            // 未获取锁,重试,设置休眠时间100ms
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return getCatalogJsonFromDbWithRedisLock();
+        }
+    }
+
+    private Map<String, List<Catalog2Vo>> getDataFromDb() {
+        String catalogJSON = redisTemplate.opsForValue().get("catalogJSON");
+        if (StringUtils.hasLength(catalogJSON)) {
+            // 缓存不为空直接返回
+            Map<String, List<Catalog2Vo>> result = JSON.parseObject(catalogJSON,
+                    new TypeReference<Map<String, List<Catalog2Vo>>>() {
+                    });
+            return result;
+        }
+        System.out.println("查询数据库中...");
+        List<CategoryEntity> selectList = baseMapper.selectList(null);
+
+        // 查询所有一级分类
+        List<CategoryEntity> level1Categorys = getParentCid(selectList, 0L);
+
+        // 封装数据
+        Map<String, List<Catalog2Vo>> Catalog2VoMap = level1Categorys.stream().collect(Collectors.toMap(k -> k.getCatId().toString(), v -> {
+            // 查询二级分类
+            List<CategoryEntity> categoryEntities = getParentCid(selectList, v.getParentCid());
+            // 封装结果
+            List<Catalog2Vo> Catalog2Vos = null;
+            if (!CollectionUtils.isEmpty(categoryEntities)) {
+                Catalog2Vos = categoryEntities.stream().map(l2 -> {
+                    // 查找当前二级分类的三级分类数据
+                    List<CategoryEntity> categoryEntities1 = getParentCid(selectList, l2.getParentCid());
+                    List<Catalog2Vo.Catalog3Vo> catalog3Vos = null;
+                    if (!CollectionUtils.isEmpty(categoryEntities1)) {
+                        catalog3Vos = categoryEntities1.stream().map(l3 -> {
+                            Catalog2Vo.Catalog3Vo Catalog3Vo = new Catalog2Vo.Catalog3Vo(l2.getCatId().toString(),
+                                    l3.getCatId().toString(), l3.getName());
+                            return Catalog3Vo;
+                        }).collect(Collectors.toList());
+                    } else {
+                        log.info("当前分类:{},没有三级分类", l2.getCatId());
+                    }
+
+                    Catalog2Vo Catalog2Vo = new Catalog2Vo(v.getCatId().toString(), catalog3Vos,
+                            l2.getCatId().toString(), l2.getName());
+                    return Catalog2Vo;
+                }).collect(Collectors.toList());
+            }
+            return Catalog2Vos;
+        }));
+        // 将查询出来的数据加入到缓存中,讲对象转为JSON字符串放入缓存,JSON跨语言、跨平台
+        // 在锁里将数据放入缓存中，因为放入缓存时发生IO有延迟可能会导致多次查询数据库
+        String s = JSON.toJSONString(Catalog2VoMap);
+        redisTemplate.opsForValue().set("catalogJSON", s, 1, TimeUnit.DAYS);
+        return Catalog2VoMap;
     }
 
     private List<CategoryEntity> getParentCid(List<CategoryEntity> categoryEntities, Long parentCid) {

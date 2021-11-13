@@ -69,6 +69,12 @@
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
         </dependency>
+        <!-- redisson作为所有分布式锁，分布式对象等功能框架 -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.16.4</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
