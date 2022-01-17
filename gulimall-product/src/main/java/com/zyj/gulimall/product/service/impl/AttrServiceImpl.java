@@ -22,6 +22,7 @@ import com.zyj.gulimall.product.vo.AttrRespVo;
 import com.zyj.gulimall.product.vo.AttrVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -51,7 +52,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     CategoryService categoryService;
 
     @Override
-    public PageUtils queryPage (Map<String, Object> params) {
+    public PageUtils queryPage(Map<String, Object> params) {
         IPage<AttrEntity> page = this.page(
                 new Query<AttrEntity>().getPage(params),
                 new QueryWrapper<AttrEntity>()
@@ -62,7 +63,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     @Transactional
     @Override
-    public void saveAttr (AttrVo attr) {
+    public void saveAttr(AttrVo attr) {
         AttrEntity attrEntity = new AttrEntity();
         // Spring提供的属性复制
         BeanUtils.copyProperties(attr, attrEntity);
@@ -78,7 +79,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     }
 
     @Override
-    public PageUtils queryBaseAttrPage (Map<String, Object> params, Long catelogId, String attrType) {
+    public PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId, String attrType) {
         QueryWrapper<AttrEntity> queryWrapper = new QueryWrapper<AttrEntity>().eq("attr_type",
                 "base".equalsIgnoreCase(attrType) ? ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode() :
                         ProductConstant.AttrEnum.ATTR_TYPE_SALE.getCode());
@@ -128,8 +129,9 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         return pageUtils;
     }
 
+    @Cacheable(value = "attr", key = "'attrinfo:'+#root.args[0]")
     @Override
-    public AttrRespVo getAttrInfo (Long attrId) {
+    public AttrRespVo getAttrInfo(Long attrId) {
         AttrEntity attrEntity = this.getById(attrId);
         AttrRespVo attrRespVo = new AttrRespVo();
         BeanUtils.copyProperties(attrEntity, attrRespVo);
@@ -162,7 +164,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     @Transactional
     @Override
-    public void updateAttr (AttrVo attr) {
+    public void updateAttr(AttrVo attr) {
         AttrEntity attrEntity = new AttrEntity();
         BeanUtils.copyProperties(attr, attrEntity);
         this.updateById(attrEntity);
@@ -187,11 +189,12 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     /**
      * 根据分组id查找关联的所有基本属性
+     *
      * @param attrgroupId
      * @return
      */
     @Override
-    public List<AttrEntity> getRelationAttr (Long attrgroupId) {
+    public List<AttrEntity> getRelationAttr(Long attrgroupId) {
         List<AttrAttrgroupRelationEntity> entities = attrAttrgroupRelationDao.selectList(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_group_id",
                 attrgroupId));
 
@@ -208,7 +211,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     }
 
     @Override
-    public void deleteRelation (AttrGroupRelationVo[] vos) {
+    public void deleteRelation(AttrGroupRelationVo[] vos) {
         // 批量删除
         List<AttrAttrgroupRelationEntity> entities = Arrays.asList(vos).stream().map((item) -> {
             AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
@@ -220,13 +223,14 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     /**
      * 获取属性分组没有关联的其他属性
+     *
      * @param params
      * @param attrgroupId
      * @return
      */
     @Transactional
     @Override
-    public PageUtils getNoRelationAttr (Map<String, Object> params, Long attrgroupId) {
+    public PageUtils getNoRelationAttr(Map<String, Object> params, Long attrgroupId) {
         // 1、当前分组只能关联自己所属的分类里面的所有属性
         AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrgroupId);
         if (attrGroupEntity == null) {

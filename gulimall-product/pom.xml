@@ -51,7 +51,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
-            <optional>true</optional>
         </dependency>
         <!-- Redis -->
         <dependency>
@@ -74,6 +73,11 @@
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
             <version>3.16.4</version>
+        </dependency>
+        <!-- Spring Cache -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
     </dependencies>
     <dependencyManagement>

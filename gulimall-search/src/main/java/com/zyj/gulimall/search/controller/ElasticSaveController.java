@@ -5,6 +5,7 @@ import com.zyj.common.to.es.SkuEsModel;
 import com.zyj.common.utils.R;
 import com.zyj.gulimall.search.service.ProductSaveService;
 import lombok.extern.slf4j.Slf4j;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,9 @@ public class ElasticSaveController {
 
     @Autowired
     ProductSaveService productSaveService;
+
+    @Autowired
+    RestHighLevelClient restHighLevelClient;
 
     /**
      * 上架商品

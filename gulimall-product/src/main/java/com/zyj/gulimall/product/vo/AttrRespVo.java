@@ -2,7 +2,6 @@ package com.zyj.gulimall.product.vo;
 
 import lombok.Data;
 import lombok.ToString;
-import sun.plugin.dom.core.Attr;
 
 /**
  * @author zyj
@@ -11,6 +10,7 @@ import sun.plugin.dom.core.Attr;
 @ToString
 @Data
 public class AttrRespVo extends AttrVo {
+
 
     private String catelogName;
 
