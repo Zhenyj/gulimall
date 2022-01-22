@@ -26,10 +26,10 @@ public class Constant {
     public static final String ASC = "asc";
 
     /** 成功 */
-    public static final Integer SUCCESS = 200;
+    public static final Integer SUCCESS_CODE = 200;
 
     /** 失败 */
-    public static final Integer FAIL = 500;
+    public static final Integer FAIL_CODE = 500;
 
     /**
      * 菜单

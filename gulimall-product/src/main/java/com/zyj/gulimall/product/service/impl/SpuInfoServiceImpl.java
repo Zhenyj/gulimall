@@ -9,6 +9,7 @@ import com.zyj.common.to.SkuHasStockVo;
 import com.zyj.common.to.SkuReductionTo;
 import com.zyj.common.to.SpuBoundsTo;
 import com.zyj.common.to.es.SkuEsModel;
+import com.zyj.common.utils.Constant;
 import com.zyj.common.utils.PageUtils;
 import com.zyj.common.utils.Query;
 import com.zyj.common.utils.R;
@@ -120,7 +121,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         BeanUtils.copyProperties(bounds, spuBoundsTo);
         spuBoundsTo.setSpuId(spuInfoEntity.getId());
         R r = couponFeignService.saveSpuBounds(spuBoundsTo);
-        if (r.getCode() != 0) {
+        if (!Constant.SUCCESS_CODE.equals(r.getCode())) {
             log.error("远程保存spu的积分信息失败");
         }
 
@@ -287,7 +288,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
         // 5、将数据发送给es进行保存，gulimall-search
         R r = searchFeignService.productStatusUp(upProducts);
-        if(r.getCode() == 0){
+        if(Constant.SUCCESS_CODE.equals(r.getCode())){
             // 远程调用成功,修改spu上架状态
             baseMapper.updateSpuStatus(spuId, ProductConstant.StatusEnum.SPU_NEW.getCode());
         }else{

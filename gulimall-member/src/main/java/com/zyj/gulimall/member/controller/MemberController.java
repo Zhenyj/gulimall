@@ -1,24 +1,26 @@
 package com.zyj.gulimall.member.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import com.zyj.gulimall.member.feign.CouponFeignService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.zyj.gulimall.member.entity.MemberEntity;
-import com.zyj.gulimall.member.service.MemberService;
+import com.zyj.common.exception.BizCodeEnum;
+import com.zyj.common.to.SocialUser;
+import com.zyj.common.to.UserLoginTo;
 import com.zyj.common.utils.PageUtils;
 import com.zyj.common.utils.R;
+import com.zyj.gulimall.member.entity.MemberEntity;
+import com.zyj.gulimall.member.exception.PhoneExistException;
+import com.zyj.gulimall.member.exception.UsernameExistException;
+import com.zyj.gulimall.member.feign.CouponFeignService;
+import com.zyj.gulimall.member.service.MemberService;
+import com.zyj.gulimall.member.vo.MemberRegisterVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**
  * 会员
+ *
  * @author zyj
  * @email zyj@gmail.com
  * @date 2021-08-01 21:56:03
@@ -32,8 +34,40 @@ public class MemberController {
     @Autowired
     CouponFeignService couponFeignService;
 
+    @PostMapping("/login")
+    public R login(@RequestBody UserLoginTo to) {
+        MemberEntity member = memberService.login(to);
+        if (member != null) {
+            return R.ok().setData(member);
+        } else {
+            return R.error(BizCodeEnum.LOGIN_ACCT_PASSWORD_INVALID_EXCEPTION.getCode(), BizCodeEnum.LOGIN_ACCT_PASSWORD_INVALID_EXCEPTION.getMsg());
+        }
+    }
+
+    @PostMapping("/oauth2/login")
+    public R oAuth2Login(@RequestBody SocialUser socialUser) {
+        MemberEntity member = memberService.login(socialUser);
+        if (member != null) {
+            return R.ok().setData(member);
+        } else {
+            return R.error(BizCodeEnum.LOGIN_ACCT_PASSWORD_INVALID_EXCEPTION.getCode(), BizCodeEnum.LOGIN_ACCT_PASSWORD_INVALID_EXCEPTION.getMsg());
+        }
+    }
+
+    @PostMapping("/register")
+    public R register(@RequestBody MemberRegisterVo vo) {
+        try {
+            memberService.register(vo);
+            return R.ok();
+        } catch (PhoneExistException e) {
+            return R.error(BizCodeEnum.PHONE_EXIST_EXCEPTION.getCode(), BizCodeEnum.PHONE_EXIST_EXCEPTION.getMsg());
+        } catch (UsernameExistException e) {
+            return R.error(BizCodeEnum.USER_EXIST_EXCEPTION.getCode(), BizCodeEnum.USER_EXIST_EXCEPTION.getMsg());
+        }
+    }
+
     @RequestMapping("/coupons")
-    public R test () {
+    public R test() {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setNickname("张三");
 
@@ -46,7 +80,7 @@ public class MemberController {
      */
     @RequestMapping("/list")
     //@RequiresPermissions("member:member:list")
-    public R list (@RequestParam Map<String, Object> params) {
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = memberService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -58,7 +92,7 @@ public class MemberController {
      */
     @RequestMapping("/info/{id}")
     //@RequiresPermissions("member:member:info")
-    public R info (@PathVariable("id") Long id) {
+    public R info(@PathVariable("id") Long id) {
         MemberEntity member = memberService.getById(id);
 
         return R.ok().put("member", member);
@@ -69,7 +103,7 @@ public class MemberController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("member:member:save")
-    public R save (@RequestBody MemberEntity member) {
+    public R save(@RequestBody MemberEntity member) {
         memberService.save(member);
 
         return R.ok();
@@ -80,7 +114,7 @@ public class MemberController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("member:member:update")
-    public R update (@RequestBody MemberEntity member) {
+    public R update(@RequestBody MemberEntity member) {
         memberService.updateById(member);
 
         return R.ok();
@@ -91,7 +125,7 @@ public class MemberController {
      */
     @RequestMapping("/delete")
     //@RequiresPermissions("member:member:delete")
-    public R delete (@RequestBody Long[] ids) {
+    public R delete(@RequestBody Long[] ids) {
         memberService.removeByIds(Arrays.asList(ids));
 
         return R.ok();

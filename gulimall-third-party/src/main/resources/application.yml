@@ -10,6 +10,12 @@ spring:
       oss:
         endpoint: oss-cn-beijing.aliyuncs.com
         bucket: gulimall-zhenyj
+      # 短信接口配置
+      sms:
+        host: https://cxkjsms.market.alicloudapi.com
+        path: /chuangxinsms/dxjk
+        method: POST
+        appcode: a09cde2e61fe4f82988db28365c7e173
   application:
     name: gulimall-third-party #应用名
 server:

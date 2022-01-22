@@ -3,6 +3,7 @@ package com.zyj.gulimall.search.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.zyj.common.to.es.SkuEsModel;
+import com.zyj.common.utils.Constant;
 import com.zyj.common.utils.R;
 import com.zyj.gulimall.search.config.GulimallElasticSearchConfig;
 import com.zyj.gulimall.search.constant.EsConstant;
@@ -198,7 +199,7 @@ public class MallSearchServiceImpl implements MallSearchService {
                     R r = productFeignService.getAttrInfo(Long.parseLong(s[0]));
                     result.getAttrIds().add(Long.parseLong(s[0]));
                     result.getAttrIds().add(Long.parseLong(s[0]));
-                    if (r.getCode() == 0) {
+                    if (Constant.SUCCESS_CODE.equals(r.getCode())) {
                         AttrRespVo data = r.getData("attr", new TypeReference<AttrRespVo>() {
                         });
                         navVo.setName(data.getAttrName());
@@ -225,7 +226,7 @@ public class MallSearchServiceImpl implements MallSearchService {
             navVo.setName("品牌");
             // 查询所有品牌
             R r = productFeignService.getBrandInfo(param.getBrandId());
-            if (r.getCode().equals(0)) {
+            if (Constant.SUCCESS_CODE.equals(r.getCode())) {
                 List<BrandVo> brandVos = r.getData("brand", new TypeReference<List<BrandVo>>() {
                 });
                 StringBuffer sb = new StringBuffer();

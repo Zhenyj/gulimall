@@ -1,16 +1,16 @@
 package com.zyj.gulimall.member.service.impl;
 
-import org.springframework.stereotype.Service;
-import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zyj.common.utils.PageUtils;
 import com.zyj.common.utils.Query;
-
 import com.zyj.gulimall.member.dao.MemberLevelDao;
 import com.zyj.gulimall.member.entity.MemberLevelEntity;
 import com.zyj.gulimall.member.service.MemberLevelService;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 
 @Service("memberLevelService")
@@ -24,6 +24,13 @@ public class MemberLevelServiceImpl extends ServiceImpl<MemberLevelDao, MemberLe
         );
 
         return new PageUtils(page);
+    }
+
+    @Override
+    public MemberLevelEntity getDefaultLevel() {
+        MemberLevelEntity memberLevelEntity = baseMapper.selectOne(new QueryWrapper<MemberLevelEntity>()
+                .eq("default_status", 1));
+        return memberLevelEntity;
     }
 
 }

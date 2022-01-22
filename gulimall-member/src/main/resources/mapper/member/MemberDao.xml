@@ -3,7 +3,7 @@
 
 <mapper namespace="com.zyj.gulimall.member.dao.MemberDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.zyj.gulimall.member.entity.MemberEntity" id="memberMap">
         <result property="id" column="id"/>
         <result property="levelId" column="level_id"/>
@@ -28,5 +28,37 @@
         <result property="expiresIn" column="expires_in"/>
     </resultMap>
 
+    <sql id="selectMemberVo">
+        select id,
+               level_id,
+               username,
+               password,
+               nickname,
+               mobile,
+               email,
+               header,
+               gender,
+               birth,
+               city,
+               job,
+               sign,
+               source_type,
+               integration,
+               growth,
+               status,
+               create_time,
+               social_uid,
+               access_token,
+               expires_in
+        from ums_member
+    </sql>
+
+    <select id="selectMemberByLoginAccount" resultMap="memberMap">
+        <include refid="selectMemberVo"/>
+        where mobile = #{loginAccount}
+        UNION
+        <include refid="selectMemberVo"/>
+        where username = #{loginAccount}
+    </select>
 
 </mapper>

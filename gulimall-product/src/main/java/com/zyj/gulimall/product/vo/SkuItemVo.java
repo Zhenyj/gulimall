@@ -16,6 +16,9 @@ public class SkuItemVo {
     /** sku基本信息 */
     private SkuInfoEntity info;
 
+    /** 是否有库存 */
+    private boolean hasStock = true;
+
     /** sku图片信息 */
     private List<SkuImagesEntity> images;
 
@@ -47,6 +50,14 @@ public class SkuItemVo {
 
         private String attrName;
 
-        private List<String> attrValues;
+        private List<AttrValueWithSkuIdVo> attrValues;
+
+        @Data
+        public static class AttrValueWithSkuIdVo {
+            private String skuIds;
+            private String attrValue;
+        }
     }
+
+
 }

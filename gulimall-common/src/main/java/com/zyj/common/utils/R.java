@@ -18,13 +18,15 @@ import java.util.Map;
 /**
  * 返回数据
  *
- * @author Mark sunlightcs@gmail.com
+ * @author
  */
 public class R extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;
 
+    public static final Integer SUCCESS_CODE = Constant.SUCCESS_CODE;
+
     public R() {
-        put("code", 0);
+        put("code", SUCCESS_CODE);
         put("msg", "success");
     }
 
@@ -88,5 +90,13 @@ public class R extends HashMap<String, Object> {
 
     public Integer getCode() {
         return (Integer) this.get("code");
+    }
+
+    public void setMsg(String msg) {
+        put("msg", msg);
+    }
+
+    public String getMsg() {
+        return (String) get("msg");
     }
 }

@@ -7,6 +7,7 @@ import com.zyj.gulimall.product.vo.SkuItemVo;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * sku信息
@@ -33,6 +34,6 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
      * @param skuId skuId
      * @return
      */
-    SkuItemVo getItem(Long skuId);
+    SkuItemVo getItem(Long skuId) throws ExecutionException, InterruptedException;
 }
 

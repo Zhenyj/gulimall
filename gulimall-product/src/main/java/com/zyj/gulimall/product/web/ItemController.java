@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.concurrent.ExecutionException;
+
 /**
  * @author lulx
  * @date 2022-01-17 19:35
@@ -19,7 +21,7 @@ public class ItemController {
     private SkuInfoService skuInfoService;
 
     @GetMapping("/{skuId}.html")
-    public String skuItem(@PathVariable("skuId") Long skuId, Model model) {
+    public String skuItem(@PathVariable("skuId") Long skuId, Model model) throws ExecutionException, InterruptedException {
         SkuItemVo skuItemVo = skuInfoService.getItem(skuId);
         model.addAttribute("item", skuItemVo);
         return "item";

@@ -88,6 +88,6 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
     public List<SkuItemVo.SpuItemAttrGroupVo> getAttrGroupWithAttrsBySpuId(Long spuId, Long catalogId) {
         // 1、查询当前spu对应的所有属性的分组信息以及当前分组下的所有属性对应的值
         List<SkuItemVo.SpuItemAttrGroupVo> vo = attrGroupDao.getAttrGroupWithAttrsBySpuId(spuId, catalogId);
-        return null;
+        return vo;
     }
 }

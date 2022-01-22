@@ -8,6 +8,8 @@ spring:
     name: gulimall-search
   thymeleaf:
     cache: false
+  session:
+    store-type: redis
 # elasticsearch
 elasticsearch:
   hostname: 192.168.136.10
