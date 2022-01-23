@@ -1,0 +1,36 @@
+server:
+  port: 16000
+spring:
+  application:
+    name: gulimall-cart
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.136.10:8848
+  thymeleaf:
+    cache: false
+  redis:
+    host: 192.168.136.10
+    port: 6379
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+      use-key-prefix: true #是否使用前缀
+#      key-prefix: CACHE_ #前缀
+      cache-null-values: true #是否缓存空值，可以用去解决缓存穿透问题
+  session:
+    store-type: redis
+# 修改日志级别，com.zyj.gulimall包下的都会打印日志
+logging:
+  level:
+    com.zyj.gulimall: debug
+feign:
+  hystrix:
+    enabled: true # 开启Feign的熔断功能
+# 自定义线程池配置
+gulimall:
+  thread:
+    core-pool-size: 20
+    maximum-pool-size: 200
+    keep-alive-time: 10
