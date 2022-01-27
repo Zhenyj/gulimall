@@ -247,12 +247,15 @@
                         <div class="user_info_tou">
                             <a href="#"><img class="" src="/static/index/img/touxiang.png"></a>
                         </div>
-                        <div class="user_info_show">
+                        <div class="user_info_show" th:if="${session.loginUser==null}">
                             <p class="">Hi, 欢迎来到!</p>
                             <p>
                                 <a href="#" class="">登录</a>
                                 <a href="#" class="">注册</a>
                             </p>
+                        </div>
+                        <div class="user_info_show" th:if="${session.loginUser!=null}">
+                            <a href="#" th:text="${session.loginUser.nickname}"></a>
                         </div>
                     </div>
                     <div class="user_info_hide">

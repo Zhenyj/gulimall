@@ -5,6 +5,7 @@ import com.zyj.common.utils.PageUtils;
 import com.zyj.gulimall.product.entity.SkuInfoEntity;
 import com.zyj.gulimall.product.vo.SkuItemVo;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -35,5 +36,19 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
      * @return
      */
     SkuItemVo getItem(Long skuId) throws ExecutionException, InterruptedException;
+
+    /**
+     * 获取商品价格
+     * @param skuIds
+     * @return
+     */
+    List<BigDecimal> getSkuPriceBySkuIds(List<Long> skuIds);
+
+    /**
+     * 获取sku信息
+     * @param skuIds
+     * @return
+     */
+    List<SkuInfoEntity> getSkuInfoBySkuIds(List<Long> skuIds);
 }
 

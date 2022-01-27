@@ -2,9 +2,9 @@ package com.zyj.gulimall.cart.feign;
 
 import com.zyj.common.utils.R;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author lulx
@@ -14,14 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface ProductFeignService {
 
     @RequestMapping("/product/skuinfo/info/{skuId}")
-    public R getSkuInfo(@PathVariable("skuId") Long skuId);
+    R getSkuInfo(@PathVariable("skuId") Long skuId);
 
     @RequestMapping("/product/skuinfo/info/{id}")
-    public R info(@PathVariable("id") Long id);
+    R info(@PathVariable("id") Long id);
 
     @GetMapping("/product/skusaleattrvalue/stringlist/{skuId}")
-    public R getSkuSaleAttrValues(@PathVariable("skuId") Long skuId);
+    R getSkuSaleAttrValues(@PathVariable("skuId") Long skuId);
 
     @GetMapping("/product/skuinfo/{skuId}/price")
-    public R getSkuPrice(@PathVariable("skuId") Long skuId);
+    R getSkuPrice(@PathVariable("skuId") Long skuId);
+
+    @PostMapping("/product/skuinfo/infos")
+    R getSkuInfoBySkuIds(@RequestParam("skuIds") List<Long> skuIds);
 }

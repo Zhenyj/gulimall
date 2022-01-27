@@ -7,6 +7,7 @@ import com.zyj.common.to.UserLoginTo;
 import com.zyj.common.to.UserRegisterTo;
 import com.zyj.common.utils.Constant;
 import com.zyj.common.utils.R;
+import com.zyj.common.vo.MemberRespVo;
 import com.zyj.gulimall.auth.feign.MemberFeginService;
 import com.zyj.gulimall.auth.vo.UserLoginVo;
 import com.zyj.gulimall.auth.vo.UserRegisterVo;
@@ -19,6 +20,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,7 +49,7 @@ public class LoginController {
     public String register(@Valid UserRegisterVo vo, BindingResult result, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             //校验失败 去注册页
-            Map<String, String> errors = new HashMap<>();
+            Map<String, String> errors = new HashMap<>(1);
             for (FieldError fieldError : result.getFieldErrors()) {
                 if (!errors.containsKey(fieldError.getField())) {
                     errors.put(fieldError.getField(), fieldError.getDefaultMessage());
@@ -84,7 +86,7 @@ public class LoginController {
                 return "redirect:http://auth.gulimall.com/reg.html";
             }
         } else {
-            Map<String, String> errors = new HashMap<>();
+            Map<String, String> errors = new HashMap<>(1);
             errors.put("code", "验证码错误");
             redirectAttributes.addFlashAttribute("errors", errors);
             return "redirect:http://auth.gulimall.com/reg.html";
@@ -92,19 +94,21 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(UserLoginVo vo, RedirectAttributes redirectAttributes) {
-        //远程登录
+    public String login(UserLoginVo vo, RedirectAttributes redirectAttributes, HttpSession session) {
         UserLoginTo to = new UserLoginTo();
         BeanUtils.copyProperties(vo, to);
         R r = memberFeginService.login(to);
         if (Constant.SUCCESS_CODE.equals(r.getCode())) {
             //成功
-            UserLoginTo data = r.getData(new TypeReference<UserLoginTo>() {
+            MemberRespVo data = r.getData(new TypeReference<MemberRespVo>() {
             });
+            // 保存到session中
+            session.setAttribute(AuthConstant.LOGIN_USER, data);
+            session.setMaxInactiveInterval(60 * 60 * 24 * 30);
             redirectAttributes.addFlashAttribute(AuthConstant.LOGIN_USER, data);
             return "redirect:http://gulimall.com";
         } else {
-            Map<String, String> errors = new HashMap<>();
+            Map<String, String> errors = new HashMap<>(1);
             errors.put("msg", r.getMsg());
             redirectAttributes.addFlashAttribute("errors", errors);
             return "redirect:http://auth.gulimall.com/login.html";

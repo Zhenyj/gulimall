@@ -14,6 +14,7 @@ public interface CartService {
 
     /**
      * 添加商品到购物车
+     *
      * @param skuId
      * @param num
      * @return
@@ -24,6 +25,7 @@ public interface CartService {
 
     /**
      * 获取购物车商品项
+     *
      * @param skuId
      * @return
      */
@@ -49,9 +51,18 @@ public interface CartService {
 
     /**
      * 删除商品项
+     *
      * @param skuId
      */
     void deleteItem(Long skuId);
 
     List<CartItem> getCurrentUseCartItem();
+
+    /**
+     * 获取用户购物车信息
+     *
+     * @return
+     */
+    List<CartItem> getCurrentUserCartItems();
+
 }

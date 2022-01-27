@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.stream.Collectors;
 
 
 @Service("skuInfoService")
@@ -157,4 +158,16 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         return skuItemVo;
     }
 
+    @Override
+    public List<BigDecimal> getSkuPriceBySkuIds(List<Long> skuIds) {
+        List<SkuInfoEntity> skuInfoEntities = baseMapper.selectBatchIds(skuIds);
+        List<BigDecimal> prices = skuInfoEntities.stream().map(SkuInfoEntity::getPrice)
+                .collect(Collectors.toList());
+        return prices;
+    }
+
+    @Override
+    public List<SkuInfoEntity> getSkuInfoBySkuIds(List<Long> skuIds) {
+        return baseMapper.selectBatchIds(skuIds);
+    }
 }

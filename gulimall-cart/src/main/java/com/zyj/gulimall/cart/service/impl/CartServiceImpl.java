@@ -2,6 +2,7 @@ package com.zyj.gulimall.cart.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.zyj.common.exception.BizCodeEnum;
 import com.zyj.common.utils.Constant;
 import com.zyj.common.utils.R;
 import com.zyj.gulimall.cart.constant.CartConstant;
@@ -20,9 +21,11 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -76,6 +79,7 @@ public class CartServiceImpl implements CartService {
 
             CompletableFuture.allOf(getSkuInfoTask, getSkuSaleAttrValuesTask).get();
             cartOps.put(skuId.toString(), JSON.toJSONString(cartItem));
+            // TODO 临时用户只保存7天时间
             return cartItem;
         } else {
             //购物车有此商品 修改数量
@@ -197,4 +201,43 @@ public class CartServiceImpl implements CartService {
     private void clearCart(String cartKey) {
         redisTemplate.delete(cartKey);
     }
+
+    @Override
+    public List<CartItem> getCurrentUserCartItems() {
+        UserInfoTo userInfoTo = CartInterceptor.threadLocal.get();
+        if (userInfoTo.getUserId() == null) {
+            return null;
+        } else {
+            String cartKey = CartConstant.CART_REDIS_PREFIX + userInfoTo.getUserId();
+            List<CartItem> cartItems = getCartItems(cartKey);
+            // 筛选出被选中的商品项
+            cartItems = cartItems.stream().filter(CartItem::getCheck).collect(Collectors.toList());
+            // 获取商品实时价格等信息
+            List<Long> skuIds = cartItems.stream().map(CartItem::getSkuId).collect(Collectors.toList());
+            R r = productFeignService.getSkuInfoBySkuIds(skuIds);
+            if (Constant.SUCCESS_CODE.equals(r.getCode())) {
+                List<SkuInfoVo> skuInfoVos = r.getData(new TypeReference<List<SkuInfoVo>>() {
+                });
+                if (skuInfoVos.size() != skuIds.size()) {
+                    log.error(BizCodeEnum.CART_PRODUCT_INFO_EXCEPTION.getMsg());
+                    throw new RuntimeException(BizCodeEnum.CART_PRODUCT_INFO_EXCEPTION.getMsg());
+                }
+                Map<Long, SkuInfoVo> skuInfoVoMap = skuInfoVos.stream().collect(Collectors.toMap(SkuInfoVo::getSkuId, Function.identity()));
+                cartItems = cartItems.stream().map(item -> {
+                    Long skuId = item.getSkuId();
+                    SkuInfoVo skuInfoVo = skuInfoVoMap.get(skuId);
+                    if (skuInfoVo == null) {
+                        log.error(BizCodeEnum.CART_PRODUCT_INFO_EXCEPTION.getMsg());
+                        throw new RuntimeException(BizCodeEnum.CART_PRODUCT_INFO_EXCEPTION.getMsg());
+                    }
+                    item.setPrice(skuInfoVo.getPrice());
+                    return item;
+                }).collect(Collectors.toList());
+
+            }
+            return cartItems;
+        }
+    }
+
+
 }

@@ -7,7 +7,9 @@ import com.zyj.gulimall.product.service.SkuInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -24,6 +26,18 @@ public class SkuInfoController {
     @Autowired
     private SkuInfoService skuInfoService;
 
+    @PostMapping("/infos")
+    public R getSkuInfoBySkuIds(@RequestParam("skuIds") List<Long> skuIds) {
+        List<SkuInfoEntity> skuInfoEntities = skuInfoService.getSkuInfoBySkuIds(skuIds);
+        return R.ok().setData(skuInfoEntities);
+    }
+
+    @PostMapping("/prices")
+    public R getSkuPriceBySkuIds(@RequestParam("skuIds") List<Long> skuIds) {
+        List<BigDecimal> prices = skuInfoService.getSkuPriceBySkuIds(skuIds);
+        return R.ok().setData(prices);
+    }
+
     @GetMapping("/{skuId}/price")
     public R getSkuPrice(@PathVariable("skuId") Long skuId) {
         SkuInfoEntity skuInfoEntity = skuInfoService.getById(skuId);
@@ -34,7 +48,6 @@ public class SkuInfoController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("product:skuinfo:list")
     public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = skuInfoService.queryPageByCondition(params);
 
@@ -64,7 +77,6 @@ public class SkuInfoController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:skuinfo:update")
     public R update(@RequestBody SkuInfoEntity skuInfo) {
         skuInfoService.updateById(skuInfo);
 
@@ -75,7 +87,6 @@ public class SkuInfoController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("product:skuinfo:delete")
     public R delete(@RequestBody Long[] skuIds) {
         skuInfoService.removeByIds(Arrays.asList(skuIds));
 
