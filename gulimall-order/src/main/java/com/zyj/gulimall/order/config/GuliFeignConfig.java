@@ -30,9 +30,11 @@ public class GuliFeignConfig {
             public void apply(RequestTemplate template) {
                 // 1、RequestContextHolder获取到原始请求
                 ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-                HttpServletRequest request = attributes.getRequest();
-                // 2、同步请求头数据,Cookie
-                template.header("Cookie", request.getHeader("Cookie"));
+                if (attributes != null) {
+                    HttpServletRequest request = attributes.getRequest();
+                    // 2、同步请求头数据,Cookie
+                    template.header("Cookie", request.getHeader("Cookie"));
+                }
             }
         };
         return requestInterceptor;

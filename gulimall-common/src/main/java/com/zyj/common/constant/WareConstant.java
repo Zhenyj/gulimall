@@ -45,4 +45,26 @@ public class WareConstant {
             return msg;
         }
     }
+
+    public enum LockStatusEnum {
+        LOCKED(1,"已锁定"),
+        UNLOCKED(2,"已解锁"),
+        DEDUCTED(3,"已扣减");
+
+        int status;
+        String msg;
+
+        LockStatusEnum(int status, String msg) {
+            this.status = status;
+            this.msg = msg;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+    }
 }

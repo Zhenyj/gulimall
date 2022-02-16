@@ -8,15 +8,6 @@ spring:
         server-addr: 192.168.136.10:8848
     gateway:
       routes:
-#        - id: baidu_route
-#          uri: https://www.baidu.com
-#          predicates:
-#            - Query=url,baidu
-#
-#        - id: qq_route
-#          uri: https://www.qq.com
-#          predicates:
-#            - Query=url,qq
         # 商品服务路由
         - id: product_route
           uri: lb://gulimall-product
@@ -89,4 +80,12 @@ spring:
           uri: lb://gulimall-order
           predicates:
             - Host=order.gulimall.com
+#        - id: gulimall_ware_route
+#          uri: lb://gulimall-ware
+#          predicates:
+#            - Host=ware.gulimall.com
+#        - id: gulimall_coupon_route
+#          uri: lb://gulimall-coupon
+#          predicates:
+#            - Host=coupon.gulimall.com
 

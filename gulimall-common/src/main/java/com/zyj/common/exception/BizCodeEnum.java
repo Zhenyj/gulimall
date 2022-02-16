@@ -22,6 +22,7 @@ public enum BizCodeEnum {
     VAILD_EXCEPTION(10001, "参数格式校验失败"),
     PRODUCT_UP_EXCEPTION(11000, "商品上架异常"),
     PRODUCT_CATEGORY_EXCEPTION(11001, "商品分类异常"),
+    PRODUCT_WARE_EXCEPTION(11002, "商品库存异常"),
     TOO_MANY_REQUEST(10008, "请求流量过大,请稍后再试"),
     SMS_CODE_EXCEPTION(10002, "验证码获取频率太高，请稍后再试"),
     CART_PRODUCT_INFO_EXCEPTION(13001, "购物车商品信息缺失、不完整"),

@@ -16,7 +16,6 @@ spring:
   # rabbitmq
   rabbitmq:
     host: 192.168.136.10
-    port: 15672
     virtual-host: /
     publisher-confirm-type: CORRELATED # 开启发送端确认
     publisher-returns: true # 开启发送端消息抵达队列的确认

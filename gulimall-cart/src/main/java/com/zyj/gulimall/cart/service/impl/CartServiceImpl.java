@@ -218,7 +218,7 @@ public class CartServiceImpl implements CartService {
             if (Constant.SUCCESS_CODE.equals(r.getCode())) {
                 List<SkuInfoVo> skuInfoVos = r.getData(new TypeReference<List<SkuInfoVo>>() {
                 });
-                if (skuInfoVos.size() != skuIds.size()) {
+                if (skuInfoVos == null || skuInfoVos.size() != skuIds.size()) {
                     log.error(BizCodeEnum.CART_PRODUCT_INFO_EXCEPTION.getMsg());
                     throw new RuntimeException(BizCodeEnum.CART_PRODUCT_INFO_EXCEPTION.getMsg());
                 }

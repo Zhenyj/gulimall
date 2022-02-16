@@ -3,6 +3,7 @@ package com.zyj.gulimall.order.interceptor;
 import com.zyj.common.vo.MemberRespVo;
 import com.zyj.gulimall.order.constant.AuthConstant;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,14 @@ public class LoginUserInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        String requestURI = request.getRequestURI();
+        AntPathMatcher antPathMatcher = new AntPathMatcher();
+        boolean match = antPathMatcher.match("/order/order/status/**", requestURI);
+        boolean math2 = antPathMatcher.match("/payed/notify", requestURI);
+        if (match || math2) {
+            return true;
+        }
         MemberRespVo memberRespVo = (MemberRespVo) request.getSession().getAttribute(AuthConstant.LOGIN_USER);
         if (memberRespVo != null) {
             loginUser.set(memberRespVo);

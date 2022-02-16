@@ -35,6 +35,9 @@ import java.util.stream.Collectors;
 public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> implements SpuInfoService {
 
     @Autowired
+    SpuInfoDao spuInfoDao;
+
+    @Autowired
     SpuInfoDescService spuInfoDescService;
 
     @Autowired
@@ -298,5 +301,17 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             * Feign调用流程
             * */
         }
+    }
+
+    @Override
+    public SpuInfoEntity getSpuInfoBySkuId(Long skuId) {
+        SpuInfoEntity spuInfoEntity = spuInfoDao.getSpuInfoBySkuId(skuId);
+        return spuInfoEntity;
+    }
+
+    @Override
+    public List<SpuInfoEntity> getSpuInfoBySkuIds(List<Long> skuIds) {
+        List<SpuInfoEntity> spuInfoEntities = spuInfoDao.getSpuInfoBySkuIds(skuIds);
+        return spuInfoEntities;
     }
 }

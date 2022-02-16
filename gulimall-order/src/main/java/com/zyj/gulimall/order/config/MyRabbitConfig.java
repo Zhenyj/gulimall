@@ -21,6 +21,11 @@ public class MyRabbitConfig {
     @Autowired
     RabbitTemplate rabbitTemplate;
 
+    /**
+     * 消息转换器
+     *
+     * @return
+     */
     @Bean
     public MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();

@@ -1,28 +1,23 @@
 package com.zyj.gulimall.ware.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.zyj.gulimall.ware.entity.WareOrderTaskEntity;
-import com.zyj.gulimall.ware.service.WareOrderTaskService;
 import com.zyj.common.utils.PageUtils;
 import com.zyj.common.utils.R;
+import com.zyj.gulimall.ware.entity.WareOrderTaskEntity;
+import com.zyj.gulimall.ware.service.WareOrderTaskService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
 /**
  * 库存工作单
  *
- * @author leifengyang
- * @email leifengyang@gmail.com
- * @date 2019-10-08 09:59:40
+ * @author zyj
+ * @email zyj@gmail.com
+ * @date 2021-08-01 21:56:03
  */
 @RestController
 @RequestMapping("ware/wareordertask")

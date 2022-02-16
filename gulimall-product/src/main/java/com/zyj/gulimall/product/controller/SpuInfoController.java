@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -27,6 +28,18 @@ import java.util.Map;
 public class SpuInfoController {
     @Autowired
     private SpuInfoService spuInfoService;
+
+    @PostMapping("/skuIds}")
+    public R getSpuInfoBySkuIds(@RequestParam("skuIds") List<Long> skuIds){
+        List<SpuInfoEntity> spuInfoEntity = spuInfoService.getSpuInfoBySkuIds(skuIds);
+        return R.ok().setData(spuInfoEntity);
+    }
+
+    @GetMapping("/skuId/{skuId}")
+    public R getSpuInfoBySkuId(@PathVariable("skuId") Long skuId){
+        SpuInfoEntity spuInfoEntity = spuInfoService.getSpuInfoBySkuId(skuId);
+        return R.ok().setData(spuInfoEntity);
+    }
 
     /**
      * 商品上架

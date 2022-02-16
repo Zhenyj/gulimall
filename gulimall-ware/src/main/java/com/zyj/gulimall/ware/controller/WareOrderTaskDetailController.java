@@ -20,9 +20,9 @@ import com.zyj.common.utils.R;
 /**
  * 库存工作单
  *
- * @author leifengyang
- * @email leifengyang@gmail.com
- * @date 2019-10-08 09:59:40
+ * @author zyj
+ * @email zyj@gmail.com
+ * @date 2021-08-01 21:56:03
  */
 @RestController
 @RequestMapping("ware/wareordertaskdetail")

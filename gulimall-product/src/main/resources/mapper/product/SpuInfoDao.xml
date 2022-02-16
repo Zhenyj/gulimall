@@ -3,7 +3,7 @@
 
 <mapper namespace="com.zyj.gulimall.product.dao.SpuInfoDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.zyj.gulimall.product.entity.SpuInfoEntity" id="spuInfoMap">
         <result property="id" column="id"/>
         <result property="spuName" column="spu_name"/>
@@ -18,12 +18,41 @@
     <update id="updateSpuStatus">
         UPDATE
             `pms_spu_info`
-        SET
-            `publish_status`=#{code},
+        SET `publish_status`=#{code},
             `update_time`=NOW()
-        WHERE
-            id=#{spuId}
+        WHERE id = #{spuId}
     </update>
+    <select id="getSpuInfoBySkuId" resultMap="spuInfoMap">
+        SELECT spu.id,
+               spu.update_time,
+               spu.create_time,
+               spu.publish_status,
+               spu.weight,
+               spu.brand_id,
+               spu.catalog_id,
+               spu.spu_description,
+               spu.spu_name
+        FROM pms_spu_info spu
+                 LEFT JOIN pms_sku_info sku ON spu.id = sku.spu_id
+        WHERE sku.sku_id = #{skuId}
+    </select>
+    <select id="getSpuInfoBySkuIds" resultMap="spuInfoMap">
+        SELECT spu.id,
+        spu.update_time,
+        spu.create_time,
+        spu.publish_status,
+        spu.weight,
+        spu.brand_id,
+        spu.catalog_id,
+        spu.spu_description,
+        spu.spu_name
+        FROM pms_spu_info spu
+        LEFT JOIN pms_sku_info sku ON spu.id = sku.spu_id
+        WHERE sku.sku_id IN
+        <foreach collection="list" item="skuId" open="(" separator="," close=")">
+            #{skuId}
+        </foreach>
+    </select>
 
 
 </mapper>

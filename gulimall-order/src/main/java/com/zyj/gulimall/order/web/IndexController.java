@@ -1,6 +1,6 @@
 package com.zyj.gulimall.order.web;
 
-import com.zyj.common.utils.IdUtils;
+import cn.hutool.core.util.IdUtil;
 import com.zyj.gulimall.order.entity.OrderEntity;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class IndexController {
     @GetMapping("/test/createOrder")
     public String createOrderTest() {
         OrderEntity order = new OrderEntity();
-        order.setOrderSn(IdUtils.fastSimpleUUID());
+        order.setOrderSn(IdUtil.fastSimpleUUID());
         order.setCreateTime(new Date());
         rabbitTemplate.convertAndSend("order.event.exchange", "order.create.order", order);
         return "ok";

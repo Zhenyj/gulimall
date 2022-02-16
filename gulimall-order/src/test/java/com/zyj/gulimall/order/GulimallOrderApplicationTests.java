@@ -1,5 +1,6 @@
 package com.zyj.gulimall.order;
 
+import cn.hutool.core.util.IdUtil;
 import com.zyj.gulimall.order.entity.OrderEntity;
 import com.zyj.gulimall.order.service.OrderService;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,13 @@ class GulimallOrderApplicationTests {
     @Autowired
     OrderService orderService;
 
+
+    @Test
+    void testSnowFlake(){
+        long l = IdUtil.getSnowflake().nextId();
+        System.out.println(l);
+    }
+
     @Test
     void contextLoads () {
     }
@@ -26,4 +34,5 @@ class GulimallOrderApplicationTests {
         //});
         list.forEach(System.out::println);
     }
+
 }

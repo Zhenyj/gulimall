@@ -14,9 +14,12 @@ public class OrderSubmitVo {
     private Integer payType;
     //商品从服务中重新获取
     //优惠 发票
+
     private String token;
+    /**应付金额*/
     private BigDecimal payPrice;
-    //订单备注
+    /**订单备注*/
     private String note;
+    /**令牌*/
     private String orderToken;
 }

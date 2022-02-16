@@ -1,9 +1,11 @@
 package com.zyj.gulimall.order.web;
 
+import com.zyj.gulimall.order.constant.OrderConstant;
 import com.zyj.gulimall.order.service.OrderService;
 import com.zyj.gulimall.order.vo.OrderConfirmVo;
 import com.zyj.gulimall.order.vo.OrderSubmitVo;
 import com.zyj.gulimall.order.vo.SubmitOrderResponseVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,7 @@ import java.util.concurrent.ExecutionException;
  * @author lulx
  * @date 2022-01-26 14:09
  **/
+@Slf4j
 @Controller
 public class OrderWebController {
 
@@ -39,7 +42,7 @@ public class OrderWebController {
             redirectAttributes.addFlashAttribute("msg", "下单失败");
             return "redirect:http://order.gulimall.com/toTrade";
         }
-        if (responseVo.getCode() == 200) {
+        if (responseVo.getCode() == OrderConstant.SubmitOrderResp.SUCCESS.getCode()) {
             //成功
             model.addAttribute("submitOrderResp", responseVo);
             return "pay";
@@ -55,7 +58,10 @@ public class OrderWebController {
                 case 502:
                     msg += "库存锁定失败，库存商品不足";
                     break;
+                default:
+                    break;
             }
+            log.warn(msg);
             redirectAttributes.addFlashAttribute("msg", msg);
             return "redirect:http://order.gulimall.com/toTrade";
         }

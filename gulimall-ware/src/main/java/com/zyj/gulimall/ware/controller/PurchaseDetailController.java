@@ -20,9 +20,9 @@ import com.zyj.common.utils.R;
 /**
  *
  *
- * @author leifengyang
- * @email leifengyang@gmail.com
- * @date 2019-11-17 13:50:10
+ * @author zyj
+ * @email zyj@gmail.com
+ * @date 2021-08-01 21:56:03
  */
 @RestController
 @RequestMapping("ware/purchasedetail")
