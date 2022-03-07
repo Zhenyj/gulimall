@@ -2,11 +2,17 @@ server:
   port: 8080
 # API路由转发
 spring:
+  application:
+    name: gulimall-gateway
   cloud:
     nacos:
       discovery:
         server-addr: 192.168.136.10:8848
+    sentinel:
+      transport:
+        dashboard: 192.168.136.10:8858
     gateway:
+      enabled: true
       routes:
         # 商品服务路由
         - id: product_route
@@ -80,12 +86,24 @@ spring:
           uri: lb://gulimall-order
           predicates:
             - Host=order.gulimall.com
-#        - id: gulimall_ware_route
-#          uri: lb://gulimall-ware
-#          predicates:
-#            - Host=ware.gulimall.com
-#        - id: gulimall_coupon_route
-#          uri: lb://gulimall-coupon
-#          predicates:
-#            - Host=coupon.gulimall.com
-
+        - id: gulimall_member_route
+          uri: lb://gulimall-member
+          predicates:
+            - Host=member.gulimall.com
+        - id: gulimall_ware_route
+          uri: lb://gulimall-ware
+          predicates:
+            - Host=ware.gulimall.com
+        - id: gulimall_coupon_route
+          uri: lb://gulimall-coupon
+          predicates:
+            - Host=coupon.gulimall.com
+        - id: gulimall_seckill_route
+          uri: lb://gulimall-seckill
+          predicates:
+            - Host=seckill.gulimall.com
+management:
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'

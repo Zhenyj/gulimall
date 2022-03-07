@@ -2,7 +2,11 @@ spring:
   cloud:
     # Nacos注册中心
     nacos:
-      server-addr: 192.168.136.10:8848 # Nacos注册中心地址
+      discovery:
+        server-addr: 192.168.136.10:8848 # Nacos注册中心地址
+    sentinel:
+      transport:
+        dashboard: 192.168.136.10:8858
     alicloud:
       # 阿里巴巴对象存储OSS
       access-key: LTAI5t8UkdrDyhgif4V3Ui1L
@@ -24,3 +28,11 @@ server:
 logging:
   level:
     com.zyj.gulimall: debug
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  sentinel:
+    enabled: true

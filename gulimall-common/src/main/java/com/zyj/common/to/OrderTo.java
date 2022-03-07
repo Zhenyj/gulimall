@@ -1,12 +1,14 @@
-package com.zyj.common.vo;
+package com.zyj.common.to;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 订单
@@ -17,7 +19,7 @@ import java.util.Date;
  */
 @Data
 @TableName("oms_order")
-public class OrderVo implements Serializable {
+public class OrderTo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -189,5 +191,4 @@ public class OrderVo implements Serializable {
 	 * 修改时间
 	 */
 	private Date modifyTime;
-
 }

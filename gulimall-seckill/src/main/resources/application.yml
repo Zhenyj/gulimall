@@ -1,0 +1,43 @@
+server:
+  port: 25000
+spring:
+  application:
+    name: gulimall-seckill
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.136.10:8848
+    sentinel:
+      transport:
+        dashboard: 192.168.136.10:8858
+        port: 8719
+  redis:
+    host: 192.168.136.10
+  task:
+    #    scheduling:
+    #      pool:
+    #        size: 5 #定时任务线程池大小
+    execution:
+      pool:
+        core-size: 8
+        max-size: 50
+  session:
+    store-type: redis
+  rabbitmq:
+    virtual-host: /
+    host: 192.168.136.10
+  thymeleaf:
+    cache: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  sentinel:
+    enabled: true
+logging:
+  level:
+    com.zyj.gulimall: debug
+    org.springframework.cloud.openfeign: debug
+    org.springframework.cloud.sleuth: debug

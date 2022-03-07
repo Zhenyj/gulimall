@@ -7,6 +7,9 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.136.10:8848
+    sentinel:
+      transport:
+        dashboard: 192.168.136.10:8858
   thymeleaf:
     cache: false
   redis:
@@ -25,12 +28,17 @@ spring:
 logging:
   level:
     com.zyj.gulimall: debug
-feign:
-  hystrix:
-    enabled: true # 开启Feign的熔断功能
 # 自定义线程池配置
 gulimall:
   thread:
     core-pool-size: 20
     maximum-pool-size: 200
     keep-alive-time: 10
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  sentinel:
+    enabled: true # 开启Feign的熔断功能

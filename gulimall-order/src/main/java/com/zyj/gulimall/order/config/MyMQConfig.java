@@ -83,4 +83,38 @@ public class MyMQConfig {
                 null);
         return binding;
     }
+
+    /**
+     * 订单释放与库存释放进行绑定
+     *
+     * @return
+     */
+    @Bean
+    public Binding orderReleaseOtherBinding() {
+        Binding binding = new Binding("stock.release.stock.queue",
+                Binding.DestinationType.QUEUE,
+                ORDER_EVENT_EXCHANGE,
+                "order.release.other.#",
+                null);
+        return binding;
+    }
+
+    /**
+     * 秒杀订单队列
+     *
+     * @return
+     */
+    @Bean
+    public Queue orderSeckillOrderQueue() {
+        return new Queue("order.seckill.order.queue", true, false, false);
+    }
+
+    @Bean
+    public Binding orderSeckillOrderQueueBinding() {
+        return new Binding("order.seckill.order.queue",
+                Binding.DestinationType.QUEUE,
+                "order.event.exchange",
+                "order.seckill.order",
+                null);
+    }
 }

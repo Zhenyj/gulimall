@@ -12,7 +12,11 @@ spring:
   cloud:
     # Nacos注册中心
     nacos:
-      server-addr: 192.168.136.10:8848 # Nacos注册中心地址
+      discovery:
+        server-addr: 192.168.136.10:8848 # Nacos注册中心地址
+    sentinel:
+      transport:
+        dashboard: 192.168.136.10:8858
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
   rabbitmq:
@@ -21,7 +25,6 @@ spring:
     listener:
       simple:
         acknowledge-mode: manual # 手动确认消息
-
 #Mybatis-Plus
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml # mapper映射文件位置
@@ -31,3 +34,11 @@ mybatis-plus:
 logging:
   level:
     com.zyj.gulimall: debug
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  sentinel:
+    enabled: true

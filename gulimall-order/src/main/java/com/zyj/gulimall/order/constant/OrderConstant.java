@@ -38,11 +38,12 @@ public class OrderConstant {
 
     public enum OrderStatusEnum {
         CREATE_NEW(0, "代付款"),
-        WAIT_DELIVER(1, "待发货"),
+        PAYED(1, "已付款"),
         DELIVERED(2, "已发货"),
         COMPLETED(3, "已完成"),
-        CLOSED(4, "已关闭"),
-        INVALID(5, "无效订单");
+        CANCEL(4, "已取消"),
+        SERVICING(5, "售后中"),
+        SERVICED(6, "售后完成");
         int status;
         String msg;
 

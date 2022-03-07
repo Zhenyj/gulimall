@@ -1,13 +1,12 @@
 package com.zyj.gulimall.order.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zyj.common.to.mq.SeckillOrderTo;
 import com.zyj.common.utils.PageUtils;
 import com.zyj.gulimall.order.entity.OrderEntity;
-import com.zyj.gulimall.order.vo.OrderConfirmVo;
-import com.zyj.gulimall.order.vo.OrderSubmitVo;
-import com.zyj.gulimall.order.vo.PayVo;
-import com.zyj.gulimall.order.vo.SubmitOrderResponseVo;
+import com.zyj.gulimall.order.vo.*;
 
+import java.text.ParseException;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -45,5 +44,27 @@ public interface OrderService extends IService<OrderEntity> {
      */
     void closeOrder(OrderEntity order);
 
+    /**
+     * 处理支付
+     * @param vo
+     * @return
+     */
+    String handlePayResult(PayAsyncVo vo) throws ParseException;
+
+    void updateOrderStatusByOrderSn(String orderSn,int status);
+
+    /**
+     * 分页查询
+     * @param params
+     * @return
+     */
+    PageUtils queryPageWithItem(Map<String, Object> params);
+
+    /**
+     * 创建秒杀订单
+     *
+     * @param orderTo
+     */
+    void createSeckillOrder(SeckillOrderTo orderTo);
 }
 

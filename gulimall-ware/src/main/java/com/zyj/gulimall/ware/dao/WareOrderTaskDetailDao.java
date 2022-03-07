@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 库存工作单
  * 
@@ -16,4 +18,6 @@ import org.apache.ibatis.annotations.Param;
 public interface WareOrderTaskDetailDao extends BaseMapper<WareOrderTaskDetailEntity> {
 
     void unlockTaskDetail(@Param("id") Long id, @Param("status") int status);
+
+    List<WareOrderTaskDetailEntity> getWareOrderTaskDetailList(WareOrderTaskDetailEntity wareOrderTaskDetail);
 }

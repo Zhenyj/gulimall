@@ -15,7 +15,7 @@ import com.zyj.common.utils.PageUtils;
 import com.zyj.common.utils.Query;
 import com.zyj.common.utils.R;
 import com.zyj.common.vo.OrderItemVo;
-import com.zyj.common.vo.OrderVo;
+import com.zyj.common.to.OrderTo;
 import com.zyj.gulimall.ware.dao.WareSkuDao;
 import com.zyj.gulimall.ware.entity.WareOrderTaskDetailEntity;
 import com.zyj.gulimall.ware.entity.WareOrderTaskEntity;
@@ -238,7 +238,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             String orderSn = wareOrderTask.getOrderSn();
             R r = orderFeignService.getOrderStatus(orderSn);
             if (Constant.SUCCESS_CODE.equals(r.getCode())) {
-                OrderVo data = r.getData(new TypeReference<OrderVo>() {
+                OrderTo data = r.getData(new TypeReference<OrderTo>() {
                 });
                 if (data == null || data.getStatus() == 4) {
                     //订单不存在或订单取消
@@ -259,34 +259,36 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
 
     /**
      * 解决订单服务卡顿库存无法解锁
+     * 防止订单服务卡顿，导致订单状态消息一直改不了，库存消息优先到期。查订单状态新建状态，什么都不做。
+     * 导致卡顿的订单,永远不能解锁库存
      */
     @Transactional
     @Override
-    public void unlockStock(OrderVo order) {
+    public void unlockStock(OrderTo order) {
+        // 查询最新的库存状态
         String orderSn = order.getOrderSn();
         WareOrderTaskEntity task = wareOrderTaskService.getOrderTaskByOrderSn(orderSn);
+
         if (task == null) {
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new RuntimeException();
+            log.warn("获取订单信息失败，订单号:{}", orderSn);
+            throw new RuntimeException("获取订单信息失败，订单号:" + orderSn);
         }
+
         Long taskId = task.getId();
-        WareOrderTaskDetailEntity wareOrderTaskDetail = new WareOrderTaskDetailEntity();
-        wareOrderTaskDetail.setTaskId(taskId);
-        wareOrderTaskDetail.setLockStatus(1);
-        List<WareOrderTaskDetailEntity> wareOrderTaskDetails = wareOrderTaskDetailService.getWareOrderTaskDetailList(wareOrderTaskDetail);
-        for (WareOrderTaskDetailEntity taskDetail : wareOrderTaskDetails) {
-            //当前状态1才可以解锁
-            if (taskDetail.getLockStatus() == WareConstant.LockStatusEnum.LOCKED.getStatus()) {
-                unlockStock(taskDetail.getSkuId(), taskDetail.getWareId(), taskDetail.getSkuNum(), taskDetail.getId());
-            }
+        List<WareOrderTaskDetailEntity> entities = wareOrderTaskDetailService.list(new QueryWrapper<WareOrderTaskDetailEntity>()
+                .eq("task_id", taskId)
+                .eq("lock_status", WareConstant.LockStatusEnum.LOCKED.getStatus()));
+        for (WareOrderTaskDetailEntity entity : entities) {
+            unlockStock(entity.getSkuId(), entity.getWareId(), entity.getSkuNum(), entity.getId());
         }
     }
 
 
     private void unlockStock(Long skuId, Long wareId, Integer num, Long taskDetailId) {
-        //库存解锁
+        // 库存解锁
         wareSkuDao.unlockStock(skuId, wareId, num);
-        //更新库存工作单状态
+        // 更新库存工作单状态
         wareOrderTaskDetailService.unlockTaskDetail(taskDetailId, WareConstant.LockStatusEnum.UNLOCKED.getStatus());
     }
+
 }

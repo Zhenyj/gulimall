@@ -31,6 +31,8 @@ public class SkuItemVo {
     /** spu规格参数信息 */
     private List<SpuItemAttrGroupVo> groupAttrs;
 
+    private SeckillInfoVo seckillInfo;
+
     @Data
     public static class SpuBaseAttrVo {
         private String attrName;

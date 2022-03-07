@@ -51,6 +51,10 @@ public class MyRabbitConfig {
             @Override
             public void confirm(CorrelationData correlationData, boolean ack, String cause) {
                 // TODO 消息确认处理
+                /**
+                 * 1、做好消息确认机制，手动ack
+                 * 2、每一个发送的消息都在数据库做好记录。定期将失败的消息再次发送至MQ
+                 */
             }
         });
 

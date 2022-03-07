@@ -20,16 +20,20 @@ package com.zyj.common.exception;
 public enum BizCodeEnum {
     UNKNOW_EXCEPTION(10000, "系统未知异常"),
     VAILD_EXCEPTION(10001, "参数格式校验失败"),
+    SMS_CODE_EXCEPTION(10002, "验证码获取频率太高，请稍后再试"),
+    TOO_MANY_REQUEST(10003, "请求流量过大,请稍后再试"),
+    DEGRADE(10004, "服务降级"),
+    PARAM_FLOW(10005, "参数限流"),
+    SYSTEM_BLOCK(10006, "系统负载异常"),
+    AUTHORITY(10007, "授权异常"),
     PRODUCT_UP_EXCEPTION(11000, "商品上架异常"),
     PRODUCT_CATEGORY_EXCEPTION(11001, "商品分类异常"),
     PRODUCT_WARE_EXCEPTION(11002, "商品库存异常"),
-    TOO_MANY_REQUEST(10008, "请求流量过大,请稍后再试"),
-    SMS_CODE_EXCEPTION(10002, "验证码获取频率太高，请稍后再试"),
     CART_PRODUCT_INFO_EXCEPTION(13001, "购物车商品信息缺失、不完整"),
     USER_EXIST_EXCEPTION(15001, "用户已存在"),
     PHONE_EXIST_EXCEPTION(15002, "手机号已存在"),
-    NO_STOCK_EXCEPTION(21000, "商品库存不足"),
-    LOGIN_ACCT_PASSWORD_INVALID_EXCEPTION(15003, "账号密码错误");
+    LOGIN_ACCT_PASSWORD_INVALID_EXCEPTION(15003, "账号密码错误"),
+    NO_STOCK_EXCEPTION(21000, "商品库存不足");
 
     private int code;
     private String msg;

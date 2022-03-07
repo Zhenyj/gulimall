@@ -13,6 +13,23 @@
         <result property="wareId" column="ware_id"/>
         <result property="lockStatus" column="lock_status"/>
     </resultMap>
+    <sql id="selectWareOrderTaskDetailVo">
+        select id, sku_id, sku_name, sku_num, task_id, ware_id, lock_status
+        from wms_ware_order_task_detail
+    </sql>
+    <select id="getWareOrderTaskDetailList" parameterType="com.zyj.gulimall.ware.entity.WareOrderTaskDetailEntity"
+            resultMap="wareOrderTaskDetailMap">
+        <include refid="selectWareOrderTaskDetailVo"/>
+        <where>
+            <if test="skuId != null ">and sku_id = #{skuId}</if>
+            <if test="skuName != null  and skuName != ''">and sku_name like concat('%', #{skuName}, '%')</if>
+            <if test="skuNum != null ">and sku_num = #{skuNum}</if>
+            <if test="taskId != null ">and task_id = #{taskId}</if>
+            <if test="wareId != null ">and ware_id = #{wareId}</if>
+            <if test="lockStatus != null ">and lock_status = #{lockStatus}</if>
+        </where>
+    </select>
+
     <update id="unlockTaskDetail">
         UPDATE `wms_ware_order_task_detail`
         SET `lock_status` = #{status}

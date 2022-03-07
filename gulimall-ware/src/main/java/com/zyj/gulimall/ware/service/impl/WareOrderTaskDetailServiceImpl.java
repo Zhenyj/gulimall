@@ -33,7 +33,8 @@ public class WareOrderTaskDetailServiceImpl extends ServiceImpl<WareOrderTaskDet
 
     @Override
     public List<WareOrderTaskDetailEntity> getWareOrderTaskDetailList(WareOrderTaskDetailEntity wareOrderTaskDetail) {
-        return null;
+        List<WareOrderTaskDetailEntity> entities = wareOrderTaskDetailDao.getWareOrderTaskDetailList(wareOrderTaskDetail);
+        return entities;
     }
 
     @Override

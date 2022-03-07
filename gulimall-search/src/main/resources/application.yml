@@ -1,14 +1,26 @@
 server:
   port: 12000
 spring:
-  cloud:
-    nacos:
-      server-addr: 192.168.136.10:8848
   application:
     name: gulimall-search
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.136.10:8848
+    sentinel:
+      transport:
+        dashboard: 192.168.136.10:8858
   thymeleaf:
     cache: false
 # elasticsearch
 elasticsearch:
   hostname: 192.168.136.10
   port: 9200
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  sentinel:
+    enabled: true

@@ -12,7 +12,12 @@ spring:
   cloud:
     # Nacos注册中心
     nacos:
-      server-addr: 192.168.136.10:8848 # Nacos注册中心地址
+      discovery:
+        server-addr: 192.168.136.10:8848 # Nacos注册中心地址
+    # Sentinel
+    sentinel:
+      transport:
+        dashboard: 192.168.136.10:8858
   # rabbitmq
   rabbitmq:
     host: 192.168.136.10
@@ -43,3 +48,18 @@ gulimall:
     core-pool-size: 20
     maximum-pool-size: 200
     keep-alive-time: 10
+alipay:
+  app_id: 2021000119617444
+  notify_url: http://2bxi93.natappfree.cc/payed/notify
+  return_url: http://member.gulimall.com/memberOrder.html
+  sign_type: RSA2
+  charset: utf-8
+  gatewayUrl: https://openapi.alipaydev.com/gateway.do
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  sentinel:
+    enabled: true

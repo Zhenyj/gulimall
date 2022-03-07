@@ -17,6 +17,22 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <spring-cloud.version>2020.0.3</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+        <actuator.version>2.5.6</actuator.version>
+        <session-data-redis.version>2.5.1</session-data-redis.version>
+        <hutool.version>5.7.18</hutool.version>
+        <mybatis-plus.version>3.4.3</mybatis-plus.version>
+        <mybatis-plus-extension.version>3.4.3</mybatis-plus-extension.version>
+        <lombok.version>1.18.20</lombok.version>
+        <httpcore.version>4.4.14</httpcore.version>
+        <commons-lang.version>2.6</commons-lang.version>
+        <commons-io.version>2.6</commons-io.version>
+        <mysql-connector.version>8.0.25</mysql-connector.version>
+        <servlet-api.version>4.0.1</servlet-api.version>
+        <spring-cloud-loadbalancer.version>3.0.3</spring-cloud-loadbalancer.version>
+        <spring-cloud-starter-bootstrap.version>3.0.3</spring-cloud-starter-bootstrap.version>
+        <validation-api.version>1.1.0.Final</validation-api.version>
+        <fastjson.version>1.2.78</fastjson.version>
     </properties>
 
     <dependencies>
@@ -24,51 +40,51 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.4.3</version>
+            <version>${mybatis-plus.version}</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-extension</artifactId>
-            <version>3.4.3</version>
+            <version>${mybatis-plus-extension.version}</version>
             <scope>compile</scope>
         </dependency>
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.20</version>
+            <version>${lombok.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
-            <version>4.4.14</version>
+            <version>${httpcore.version}</version>
         </dependency>
 
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
+            <version>${commons-lang.version}</version>
         </dependency>
 
         <!-- Mysql驱动 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.25</version>
+            <version>${mysql-connector.version}</version>
         </dependency>
         <!-- servlet -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
+            <version>${servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.5</version>
+            <version>${commons-io.version}</version>
         </dependency>
         <!-- 服务注册与发现功能，nacos注册中心 -->
         <dependency>
@@ -86,7 +102,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-loadbalancer</artifactId>
-            <version>3.0.3</version>
+            <version>${spring-cloud-loadbalancer.version}</version>
         </dependency>
         <!-- nacos配置中心,做配置管理 -->
         <dependency>
@@ -97,37 +113,55 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
-            <version>3.0.3</version>
+            <version>${spring-cloud-starter-bootstrap.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>1.1.0.Final</version>
+            <version>${validation-api.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.73</version>
+            <version>${fastjson.version}</version>
         </dependency>
 
         <!-- 整合spring session 完成Session共享 -->
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
-            <version>2.6.1</version>
+            <version>${session-data-redis.version}</version>
         </dependency>
 
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
-            <version>5.7.18</version>
+            <version>${hutool.version}</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.alibaba.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-alibaba-seata</artifactId>-->
+        <!--        </dependency>-->
+
+        <!-- Sentinel -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${actuator.version}</version>
+        </dependency>
+
+        <!-- 链路追踪 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
     </dependencies>
 
     <!-- 统一对SpringCloud Alibaba依赖进行版本控制 -->
@@ -136,7 +170,7 @@
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>2.2.5.RELEASE</version>
+                <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -149,17 +183,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
-                <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

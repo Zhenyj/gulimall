@@ -48,6 +48,6 @@ public class LoginUserInterceptor implements HandlerInterceptor {
             response.sendRedirect("http://auth.gulimall.com/login.html");
             return false;
         }
-        return HandlerInterceptor.super.preHandle(request, response, handler);
+        return true;
     }
 }

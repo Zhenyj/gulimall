@@ -1,6 +1,8 @@
 server:
   port: 10000 # 服务端口
 spring:
+  application:
+    name: gulimall-product #应用名
   #  数据源
   datasource:
     username: root
@@ -10,15 +12,17 @@ spring:
   cloud:
     # Nacos注册中心
     nacos:
-      server-addr: 192.168.136.10:8848 # Nacos注册中心地址
+      discovery:
+        server-addr: 192.168.136.10:8848 # Nacos注册中心地址
+    sentinel:
+      transport:
+        dashboard: 192.168.136.10:8858
     alicloud:
       # 阿里巴巴对象存储OSS
       access-key: LTAI5t8UkdrDyhgif4V3Ui1L
       secret-key: 1aedjRQld2T9e6Ar84jGMpra43zbb4
       oss:
         endpoint: oss-cn-beijing.aliyuncs.com
-  application:
-    name: gulimall-product #应用名
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -49,9 +53,8 @@ mybatis-plus:
 logging:
   level:
     com.zyj.gulimall: debug
-feign:
-  hystrix:
-    enabled: true # 开启Feign的熔断功能
+    org.springframework.cloud.openfeign: debug
+    org.springframework.cloud.sleuth: debug
 ribbon:
   ConnectTimeout: 250 # 连接超时时间(ms)
   ReadTimeout: 1000 # 通信超时时间(ms)
@@ -64,3 +67,11 @@ gulimall:
     core-pool-size: 20
     maximum-pool-size: 200
     keep-alive-time: 10
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  sentinel:
+    enabled: true # 开启Feign的熔断功能

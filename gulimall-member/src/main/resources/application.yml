@@ -12,7 +12,11 @@ spring:
   cloud:
     # Nacos注册中心
     nacos:
-      server-addr: 192.168.136.10:8848 # Nacos注册中心地址
+      discovery:
+        server-addr: 192.168.136.10:8848 # Nacos注册中心地址
+    sentinel:
+      transport:
+        dashboard: 192.168.136.10:8858
 #Mybatis-Plus
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml # mapper映射文件位置
@@ -25,3 +29,11 @@ gulimall:
     core-pool-size: 20
     maximum-pool-size: 200
     keep-alive-time: 10
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  sentinel:
+    enabled: true
