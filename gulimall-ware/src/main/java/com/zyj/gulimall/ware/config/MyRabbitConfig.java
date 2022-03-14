@@ -6,7 +6,6 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +20,8 @@ import java.util.Map;
 @Configuration
 public class MyRabbitConfig {
 
-    @Autowired
-    RabbitTemplate rabbitTemplate;
+//    @Autowired
+//    RabbitTemplate rabbitTemplate;
 
     public static final String STOCK_EVENT_EXCHANGE = "stock.event.exchange";
     public static final String STOCK_RELEASE_STOCK_QUEUE = "stock.release.stock.queue";
@@ -31,15 +30,19 @@ public class MyRabbitConfig {
     public static final String STOCK_LOCKED_ROUTING_KEY = "stock.locked";
     public static final Long STOCK_DELAY_QUEUE_TTL = 120000L;
 
+    MyRabbitConfig(RabbitTemplate rabbitTemplate){
+        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+    }
+
     /**
      * 消息转换器
      *
      * @return
      */
-    @Bean
-    public MessageConverter messageConverter() {
-        return new Jackson2JsonMessageConverter();
-    }
+//    @Bean
+//    public MessageConverter messageConverter() {
+//        return new Jackson2JsonMessageConverter();
+//    }
 
 
     @Bean

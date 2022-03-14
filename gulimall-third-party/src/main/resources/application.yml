@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: gulimall-third-party #应用名
   cloud:
     # Nacos注册中心
     nacos:
@@ -20,8 +22,14 @@ spring:
         path: /chuangxinsms/dxjk
         method: POST
         appcode: a09cde2e61fe4f82988db28365c7e173
-  application:
-    name: gulimall-third-party #应用名
+  zipkin:
+    base-url: http://192.168.136.10:9411 # zipkin服务器地址端口
+    discovery-client-enabled: false # 关闭服务发现，否则SpringCloud会把zipkin的url当做服务名称
+    sender:
+      type: web # http方式传输数据
+    sleuth:
+      sampler:
+        probability: 1 # 设置抽样采集率100%，默认0.1=>10%
 server:
   port: 30000 # 服务端口
 # 修改日志级别，com.zyj.gulimall包下的都会打印日志

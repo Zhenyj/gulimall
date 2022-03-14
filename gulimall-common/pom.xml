@@ -33,6 +33,7 @@
         <spring-cloud-starter-bootstrap.version>3.0.3</spring-cloud-starter-bootstrap.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <fastjson.version>1.2.78</fastjson.version>
+        <zipkin.version>2.2.8.RELEASE</zipkin.version>
     </properties>
 
     <dependencies>
@@ -157,16 +158,23 @@
             <version>${actuator.version}</version>
         </dependency>
 
-        <!-- 链路追踪 -->
+        <!-- sleuth链路追踪 -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-sleuth</artifactId>-->
+<!--        </dependency>-->
+
+        <!-- zipkin包含sleuth,可以省略sleuth依赖 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+            <version>${zipkin.version}</version>
         </dependency>
     </dependencies>
 
-    <!-- 统一对SpringCloud Alibaba依赖进行版本控制 -->
     <dependencyManagement>
         <dependencies>
+            <!-- 统一对SpringCloud Alibaba依赖进行版本控制 -->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
