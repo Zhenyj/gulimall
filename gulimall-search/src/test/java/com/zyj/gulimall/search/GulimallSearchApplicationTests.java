@@ -52,6 +52,7 @@ class GulimallSearchApplicationTests {
 
     /**
      * 检索
+     *
      * @throws IOException
      */
     @Test
@@ -65,7 +66,7 @@ class GulimallSearchApplicationTests {
         searchRequest.source(sourceBuilder);
 
         // 1.1、检索条件
-        sourceBuilder.query(QueryBuilders.matchQuery("address","mill"));
+        sourceBuilder.query(QueryBuilders.matchQuery("address", "mill"));
         System.out.println(sourceBuilder.toString());
         // 按年龄的值分布进行聚合
         TermsAggregationBuilder ageAgg = AggregationBuilders.terms("ageAgg").field("age").size(10);
@@ -84,12 +85,12 @@ class GulimallSearchApplicationTests {
         // 3.1获取所有查到的数据
         SearchHits hits = searchResponse.getHits();
         SearchHit[] searchHits = hits.getHits();
-        for(SearchHit hit :searchHits){
+        for (SearchHit hit : searchHits) {
 //            hit.getIndex();
 //            hit.getId();
             String string = hit.getSourceAsString();
             Account account = JSON.parseObject(string, Account.class);
-            System.out.println("account:"+account);
+            System.out.println("account:" + account);
         }
 
         // 3.2、获取检索的分析信息
@@ -101,11 +102,11 @@ class GulimallSearchApplicationTests {
         Terms ageAgg1 = aggregations.get("ageAgg");
         for (Terms.Bucket bucket : ageAgg1.getBuckets()) {
             String keyAsString = bucket.getKeyAsString();
-            System.out.println("年龄:"+keyAsString+"===>"+bucket.getDocCount());
+            System.out.println("年龄:" + keyAsString + "===>" + bucket.getDocCount());
         }
 
         Avg balanceAvg1 = aggregations.get("balanceAvg");
-        System.out.println("平均薪资:"+balanceAvg1);
+        System.out.println("平均薪资:" + balanceAvg1);
     }
 
     /**
@@ -117,7 +118,7 @@ class GulimallSearchApplicationTests {
         IndexRequest indexRequest = new IndexRequest("users");
         indexRequest.id("1"); // 数据的id
 //        indexRequest.source("userName","张三","age",18,"gender","男");
-        User user = new User("李四","男",19);
+        User user = new User("李四", "男", 19);
         String jsonString = JSON.toJSONString(user);
         indexRequest.source(jsonString, XContentType.JSON); // 要保存的内容
 
@@ -131,7 +132,7 @@ class GulimallSearchApplicationTests {
     @AllArgsConstructor
     @NoArgsConstructor
     @Data
-    class User{
+    class User {
         private String userName;
         private String gender;
         private Integer age;

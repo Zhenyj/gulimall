@@ -30,7 +30,7 @@ public class WareSkuController {
 
     /**
      * 锁定库存
-     *
+     * <p>
      * 库存解锁的场景：
      * 1）、下单成功、订单过期未支付、取消订单
      *

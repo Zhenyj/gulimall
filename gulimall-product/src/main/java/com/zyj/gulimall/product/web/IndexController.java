@@ -126,6 +126,7 @@ public class IndexController {
      * 信号量
      * 类似停车场车位
      * 信号量也可以用于分布式限流
+     *
      * @return
      * @throws InterruptedException
      */
@@ -135,9 +136,9 @@ public class IndexController {
         RSemaphore park = redisson.getSemaphore("park");
 //        park.acquire(); // 获取信号量,阻塞方法
         boolean b = park.tryAcquire(); // 尝试获取信号量，不会阻塞
-        if(b){
+        if (b) {
             // 执行业务
-        }else{
+        } else {
             return "error";
         }
         return "ok==>" + b;
@@ -155,6 +156,7 @@ public class IndexController {
      * 闭锁
      * 类似学校放假，锁门
      * 所有班级的人都走完了，可以锁大门了
+     *
      * @return
      */
     @ResponseBody
@@ -168,7 +170,7 @@ public class IndexController {
 
     @ResponseBody
     @GetMapping("/gogogo/{id}")
-    public String gogogo(@PathVariable("id") Long id){
+    public String gogogo(@PathVariable("id") Long id) {
         RCountDownLatch door = redisson.getCountDownLatch("door");
         door.countDown(); // 计数减一
         return id + "班的人都走了";

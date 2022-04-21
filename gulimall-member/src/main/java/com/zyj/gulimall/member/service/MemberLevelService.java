@@ -19,6 +19,7 @@ public interface MemberLevelService extends IService<MemberLevelEntity> {
 
     /**
      * 获取用户默认等级
+     *
      * @return
      */
     MemberLevelEntity getDefaultLevel();

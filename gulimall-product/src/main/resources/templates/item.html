@@ -559,8 +559,7 @@
         $(this).addClass("clicked");
         var curr = $(this).attr("skus").split(",");
         //当前被点击的所有sku组合数组放进去
-        skus.push(curr)
-        //去掉同一行所有的checked
+        skus.push(curr)    //去掉同一行所有的checked
         $(this).parent().parent().find(".sku_attr_value").removeClass("checked");
         $("a[class='sku_attr_value checked']").each(function () {
             skus.push($(this).attr("skus").split(","));

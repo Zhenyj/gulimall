@@ -30,7 +30,7 @@ public class MyRabbitConfig {
     public static final String STOCK_LOCKED_ROUTING_KEY = "stock.locked";
     public static final Long STOCK_DELAY_QUEUE_TTL = 120000L;
 
-    MyRabbitConfig(RabbitTemplate rabbitTemplate){
+    MyRabbitConfig(RabbitTemplate rabbitTemplate) {
         rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
     }
 
@@ -43,8 +43,6 @@ public class MyRabbitConfig {
 //    public MessageConverter messageConverter() {
 //        return new Jackson2JsonMessageConverter();
 //    }
-
-
     @Bean
     public Exchange stockEventExchange() {
         TopicExchange exchange = new TopicExchange(STOCK_EVENT_EXCHANGE, true, false);

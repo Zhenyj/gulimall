@@ -6,12 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 商品spu积分设置
- * 
+ *
  * @author zyj
  * @email zyj@gmail.com
  * @date 2021-08-01 21:43:29
  */
 @Mapper
 public interface SpuBoundsDao extends BaseMapper<SpuBoundsEntity> {
-	
+
 }

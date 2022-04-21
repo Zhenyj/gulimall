@@ -1,6 +1,6 @@
 /**
-  * Copyright 2021 json.cn 
-  */
+ * Copyright 2021 json.cn
+ */
 package com.zyj.gulimall.product.vo;
 
 import lombok.Data;

@@ -13,6 +13,7 @@ public class GulimallWebConfig implements WebMvcConfigurer {
 
     /**
      * 视图映射
+     *
      * @param registry
      */
     @Override

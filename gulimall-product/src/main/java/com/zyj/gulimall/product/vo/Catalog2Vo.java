@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author llx
  * @date 2021-11-08 22:19
- *
+ * <p>
  * 二级分类vo
  **/
 
@@ -33,7 +33,7 @@ public class Catalog2Vo {
     @AllArgsConstructor
     @NoArgsConstructor
     @Data
-    public static class Catalog3Vo{
+    public static class Catalog3Vo {
         /*二级父分类id*/
         private String catalog2Id;
         /*当前节点的id*/

@@ -9,17 +9,18 @@ import java.util.Set;
  * @author zyj
  * @create 2021-08-24 0:18
  */
-public class ListValueConstraintValidator implements ConstraintValidator<ListValue,Integer> {
+public class ListValueConstraintValidator implements ConstraintValidator<ListValue, Integer> {
 
     // 指定的内容
     private Set<Integer> set = new HashSet<>();
 
     /**
      * 初始化方法
+     *
      * @param constraintAnnotation
      */
     @Override
-    public void initialize (ListValue constraintAnnotation) {
+    public void initialize(ListValue constraintAnnotation) {
         int[] vals = constraintAnnotation.vals();
         for (int val : vals) {
 
@@ -29,12 +30,13 @@ public class ListValueConstraintValidator implements ConstraintValidator<ListVal
 
     /**
      * 判断是否校验成功
-     * @param value 需要校验的值
+     *
+     * @param value   需要校验的值
      * @param context 上下文环境信息
      * @return
      */
     @Override
-    public boolean isValid (Integer value, ConstraintValidatorContext context) {
+    public boolean isValid(Integer value, ConstraintValidatorContext context) {
         return set.contains(value);
     }
 }

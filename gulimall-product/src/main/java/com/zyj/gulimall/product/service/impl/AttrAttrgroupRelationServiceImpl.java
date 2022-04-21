@@ -26,14 +26,13 @@ public class AttrAttrgroupRelationServiceImpl extends ServiceImpl<AttrAttrgroupR
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<AttrAttrgroupRelationEntity> page = this.page(
                 new Query<AttrAttrgroupRelationEntity>().getPage(params),
-                new QueryWrapper<AttrAttrgroupRelationEntity>()
-        );
+                new QueryWrapper<AttrAttrgroupRelationEntity>());
 
         return new PageUtils(page);
     }
 
     @Override
-    public void saveBatch (List<AttrGroupRelationVo> vos) {
+    public void saveBatch(List<AttrGroupRelationVo> vos) {
         List<AttrAttrgroupRelationEntity> collect = vos.stream().map(item -> {
             AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
             BeanUtils.copyProperties(item, relationEntity);

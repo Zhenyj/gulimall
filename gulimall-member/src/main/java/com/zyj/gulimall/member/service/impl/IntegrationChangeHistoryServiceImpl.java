@@ -1,7 +1,9 @@
 package com.zyj.gulimall.member.service.impl;
 
 import org.springframework.stereotype.Service;
+
 import java.util.Map;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -20,8 +22,7 @@ public class IntegrationChangeHistoryServiceImpl extends ServiceImpl<Integration
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<IntegrationChangeHistoryEntity> page = this.page(
                 new Query<IntegrationChangeHistoryEntity>().getPage(params),
-                new QueryWrapper<IntegrationChangeHistoryEntity>()
-        );
+                new QueryWrapper<IntegrationChangeHistoryEntity>());
 
         return new PageUtils(page);
     }

@@ -17,6 +17,7 @@ public interface SearchFeignService {
 
     /**
      * 上架商品
+     *
      * @param skuEsModels
      * @return
      */

@@ -21,10 +21,11 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    PageUtils queryPageByCondition (Map<String, Object> params);
+    PageUtils queryPageByCondition(Map<String, Object> params);
 
     /**
      * 根据spuId查询sku信息
+     *
      * @param spuId
      * @return
      */
@@ -32,6 +33,7 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
 
     /**
      * 获取商品详情
+     *
      * @param skuId skuId
      * @return
      */
@@ -39,6 +41,7 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
 
     /**
      * 获取商品价格
+     *
      * @param skuIds
      * @return
      */
@@ -46,6 +49,7 @@ public interface SkuInfoService extends IService<SkuInfoEntity> {
 
     /**
      * 获取sku信息
+     *
      * @param skuIds
      * @return
      */

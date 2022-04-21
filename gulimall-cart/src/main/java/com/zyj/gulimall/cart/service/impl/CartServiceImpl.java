@@ -157,16 +157,15 @@ public class CartServiceImpl implements CartService {
             String cartKey = CartConstant.CART_REDIS_PREFIX + userInfoTo.getUserId();
             List<CartItem> cartItems = getCartItems(cartKey);
             if (cartItems != null && cartItems.size() > 0) {
-                cartItems = cartItems.stream().filter(CartItem::getCheck)
-                        .map(item -> {
-                            R r = productFeignService.getSkuPrice(item.getSkuId());
-                            //TODO 1 更新为最新价格
-                            if (Constant.SUCCESS_CODE.equals(r.getCode())) {
-                                item.setPrice(r.getData(new TypeReference<BigDecimal>() {
-                                }));
-                            }
-                            return item;
-                        }).collect(Collectors.toList());
+                cartItems = cartItems.stream().filter(CartItem::getCheck).map(item -> {
+                    R r = productFeignService.getSkuPrice(item.getSkuId());
+                    //TODO 1 更新为最新价格
+                    if (Constant.SUCCESS_CODE.equals(r.getCode())) {
+                        item.setPrice(r.getData(new TypeReference<BigDecimal>() {
+                        }));
+                    }
+                    return item;
+                }).collect(Collectors.toList());
                 return cartItems;
             } else {
                 return null;
@@ -180,8 +179,7 @@ public class CartServiceImpl implements CartService {
         BoundHashOperations<String, Object, Object> hashOps = redisTemplate.boundHashOps(cartKey);
         List<Object> values = hashOps.values();
         if (values != null && values.size() > 0) {
-            return values.stream().map(obj -> JSON.parseObject((String) obj, CartItem.class))
-                    .collect(Collectors.toList());
+            return values.stream().map(obj -> JSON.parseObject((String) obj, CartItem.class)).collect(Collectors.toList());
         } else {
             return null;
         }

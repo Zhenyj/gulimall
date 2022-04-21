@@ -10,6 +10,7 @@ import com.zyj.gulimall.search.vo.SearchResult;
 public interface MallSearchService {
     /**
      * 检索商品
+     *
      * @param param 检索参数
      * @return 检索结果
      */

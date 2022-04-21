@@ -108,8 +108,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<OrderEntity> page = this.page(
                 new Query<OrderEntity>().getPage(params),
-                new QueryWrapper<OrderEntity>()
-        );
+                new QueryWrapper<OrderEntity>());
 
         return new PageUtils(page);
     }
@@ -169,8 +168,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
                 log.error(BizCodeEnum.PRODUCT_WARE_EXCEPTION.getMsg());
                 throw new RuntimeException(BizCodeEnum.PRODUCT_WARE_EXCEPTION.getMsg());
             }
-            Map<Long, Boolean> skuHasStockVoMap = skuHasStockVos.stream()
-                    .collect(Collectors.toMap(SkuHasStockVo::getSkuId, SkuHasStockVo::getHasStock));
+            Map<Long, Boolean> skuHasStockVoMap = skuHasStockVos.stream().collect(Collectors.toMap(SkuHasStockVo::getSkuId, SkuHasStockVo::getHasStock));
             orderConfirmVo.setStocks(skuHasStockVoMap);
         }, executor);
 
@@ -413,9 +411,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         //订单项实际金额
         BigDecimal origin = orderItem.getSkuPrice().multiply(new BigDecimal(orderItem.getSkuQuantity()));
         ///总额减去各个优惠
-        BigDecimal subtract = origin.subtract(orderItem.getCouponAmount())
-                .subtract(orderItem.getPromotionAmount())
-                .subtract(orderItem.getIntegrationAmount());
+        BigDecimal subtract = origin.subtract(orderItem.getCouponAmount()).subtract(orderItem.getPromotionAmount()).subtract(orderItem.getIntegrationAmount());
         orderItem.setRealAmount(subtract);
         return orderItem;
     }
@@ -428,8 +424,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
             throw new RuntimeException("不存在订单号为:" + orderSn + "的订单");
         }
         payVo.setOut_trade_no(orderSn);
-        List<OrderItemEntity> orderItems = orderItemDao.selectList(new QueryWrapper<OrderItemEntity>()
-                .eq("order_sn", orderSn));
+        List<OrderItemEntity> orderItems = orderItemDao.selectList(new QueryWrapper<OrderItemEntity>().eq("order_sn", orderSn));
         payVo.setSubject("商城购买：");
         OrderItemEntity orderItem = null;
         if (orderItems != null && orderItems.size() > 0) {
@@ -446,8 +441,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
 
     @Override
     public OrderEntity getOrderByOrderSn(String orderSn) {
-        OrderEntity order = baseMapper.selectOne(new QueryWrapper<OrderEntity>()
-                .eq("order_sn", orderSn));
+        OrderEntity order = baseMapper.selectOne(new QueryWrapper<OrderEntity>().eq("order_sn", orderSn));
         return order;
     }
 
@@ -514,13 +508,10 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         }
         IPage<OrderEntity> page = this.page(
                 new Query<OrderEntity>().getPage(params),
-                new QueryWrapper<OrderEntity>().eq("member_id", memberRespVo.getId())
-                        .orderByDesc("id")
-        );
+                new QueryWrapper<OrderEntity>().eq("member_id", memberRespVo.getId()).orderByDesc("id"));
 
         page.getRecords().stream().forEach(order -> {
-            List<OrderItemEntity> items = orderItemService.list(new QueryWrapper<OrderItemEntity>()
-                    .eq("order_sn", order.getOrderSn()));
+            List<OrderItemEntity> items = orderItemService.list(new QueryWrapper<OrderItemEntity>().eq("order_sn", order.getOrderSn()));
             order.setItems(items);
         });
 
@@ -541,8 +532,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
         OrderItemEntity orderItem = new OrderItemEntity();
         orderItem.setOrderSn(orderTo.getOrderSn());
         orderItem.setRealAmount(payAmount);
-        //TODO 获取当前sku的详细信息设置 remoteProductService.getSpuInfoBySkuId(skuId)
-        orderItem.setSkuQuantity(orderTo.getNum());
+        //TODO 获取当前sku的详细信息设置 remoteProductService.getSpuInfoBySkuId(skuId)    orderItem.setSkuQuantity(orderTo.getNum());
         orderItemService.save(orderItem);
     }
 

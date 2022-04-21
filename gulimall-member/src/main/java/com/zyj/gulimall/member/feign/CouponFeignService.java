@@ -16,6 +16,7 @@ public interface CouponFeignService {
 
     /**
      * 在注册中心中先找远程服务，在调用请求
+     *
      * @return
      */
     @RequestMapping("/coupon/coupon/member/list")

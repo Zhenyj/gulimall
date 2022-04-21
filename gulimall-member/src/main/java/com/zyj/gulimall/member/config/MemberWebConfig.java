@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @date 2022-02-21 15:05
  **/
 public class MemberWebConfig implements WebMvcConfigurer {
+
     @Autowired
     private LoginUserInterceptor loginUserInterceptor;
 

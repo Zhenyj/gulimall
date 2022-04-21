@@ -44,7 +44,7 @@ public class OssController {
     private String accessId;
 
     @RequestMapping("/oss/policy")
-    public R policy () {
+    public R policy() {
         // https://gulimall-zhenyj.oss-cn-beijing.aliyuncs.com/JAVA.png
         String host = "https://" + bucket + "." + endpoint; // host的格式为 bucketname.endpoint
         // callbackUrl为上传回调服务器的URL，请将下面的IP和Port配置为您自己的真实信息。

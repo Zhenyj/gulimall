@@ -69,7 +69,6 @@ public class SeckillSessionController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("coupon:seckillsession:update")
     public R update(@RequestBody SeckillSessionEntity seckillSession) {
         seckillSessionService.updateById(seckillSession);
 
@@ -80,7 +79,6 @@ public class SeckillSessionController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("coupon:seckillsession:delete")
     public R delete(@RequestBody Long[] ids) {
         seckillSessionService.removeByIds(Arrays.asList(ids));
 

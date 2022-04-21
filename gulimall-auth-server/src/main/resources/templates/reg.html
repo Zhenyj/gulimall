@@ -6082,28 +6082,23 @@ Cookie</span>是由网页服务器存放在您的访问设备上的文本文件�
             if ($(this).val().length == 0) {
                 $(this).parent().next("div").text("支持中文，字母，数字，'-'，'_'的多种组合");
             }
-        })
-        $('input').eq(2).focus(function () {
+        })    $('input').eq(2).focus(function () {
             if ($(this).val().length == 0) {
                 $(this).parent().next("div").text("建议使用字母、数字和符号两种以上的组合，6-20个字符");
             }
-        })
-        $('input').eq(3).focus(function () {
+        })    $('input').eq(3).focus(function () {
             if ($(this).val().length == 0) {
                 $(this).parent().next("div").text("请再次输入密码");
             }
-        })
-        $('input').eq(4).focus(function () {
+        })    $('input').eq(4).focus(function () {
             if ($(this).val().length == 0) {
                 $(this).parent().next("div").text("验证完后，你可以使用该手机登陆和找回密码");
             }
-        })
-        // $('input').eq(5).focus(function () {
+        })    // $('input').eq(5).focus(function () {
         //     if ($(this).val().length == 0) {
         //         $(this).parent().next().next("div").text("看不清？点击图片更换验证码");
         //     }
-        // })
-        //input各种判断
+        // })    //input各种判断
         //用户名：
         $('input').eq(1).blur(function () {
             if ($(this).val().length == 0) {
@@ -6125,8 +6120,7 @@ Cookie</span>是由网页服务器存放在您的访问设备上的文本文件�
                 }
                 $(this).parent().next("div").text("");
             }
-        })
-        //密码
+        })    //密码
         $('input').eq(1).blur(function () {
             if ($(this).val().length == 0) {
                 $(this).parent().next("div").text("");
@@ -6137,8 +6131,7 @@ Cookie</span>是由网页服务器存放在您的访问设备上的文本文件�
             } else {
                 $(this).parent().next("div").text("");
             }
-        })
-        //	确认密码
+        })    //	确认密码
         $('input').eq(3).blur(function () {
             if ($(this).val().length == 0) {
                 $(this).parent().next("div").text("");
@@ -6149,8 +6142,7 @@ Cookie</span>是由网页服务器存放在您的访问设备上的文本文件�
             } else {
                 $(this).parent().next("div").text("");
             }
-        })
-        var pattern = /0?(13|14|15|18|17)[0-9]{9}/;
+        })    var pattern = /0?(13|14|15|18|17)[0-9]{9}/;
         //	手机号
         $('input').eq(3).blur(function () {
             if ($(this).val().length == 0) {
@@ -6162,17 +6154,14 @@ Cookie</span>是由网页服务器存放在您的访问设备上的文本文件�
             } else {
                 $(this).parent().next("div").text("");
             }
-        })
-        // 	验证码
+        })    // 	验证码
         //	 验证码刷新
         function code() {
             var str = "qwertyuiopasdfghjklzxcvbnm1234567890QWERTYUIOPLKJHGFDSAZXCVBNM";
             var str1 = 0;
             for (var i = 0; i < 4; i++) {
-                str1 += str.charAt(Math.floor(Math.random() * 62))
-            }
-            str1 = str1.substring(1)
-            $("#code").text(str1);
+                str1 += str.charAt(Math.floor(Math.random() * 62))        }
+            str1 = str1.substring(1)        $("#code").text(str1);
         }
 
         code();
@@ -6188,8 +6177,7 @@ Cookie</span>是由网页服务器存放在您的访问设备上的文本文件�
             } else {
                 $(this).parent().next().next("div").text("");
             }
-        })
-        //	提交按钮
+        })    //	提交按钮
         $("#submit_btn1").click(function (e) {
             for (var j = 0; j < 5; j++) {
                 if ($('input').eq(j).val().length == 0) {
@@ -6208,8 +6196,7 @@ Cookie</span>是由网页服务器存放在您的访问设备上的文本文件�
             }
             //协议
             if ($("#xieyi")[0].checked) {
-                //向变量stuList数组添加一个数值，数值内部格式Student(name,password,tel,id)
-                //发送用户信息
+                //向变量stuList数组添加一个数值，数值内部格式Student(name,password,tel,id)            //发送用户信息
                 stuList.push(new Student($('input').eq(0).val(), $('input').eq(1).val(), $('input').eq(3).val(), stuList.length + 1));
                 localStorage.setItem('stuList', JSON.stringify(stuList));
                 alert("注册成功");
@@ -6240,8 +6227,7 @@ Cookie</span>是由网页服务器存放在您的访问设备上的文本文件�
             }
         }
 
-    })
-    $(".ty").click(function () {
+    })$(".ty").click(function () {
         $(".zong").hide();
         $(".laoda").hide();
     });

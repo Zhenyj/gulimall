@@ -11,5 +11,5 @@ public class PurchaseDoneVo {
     @NotNull
     private Long id;//采购单id
 
-    private List<com.zyj.gulimall.ware.vo.PurchaseItemDoneVo> items;
+    private List<PurchaseItemDoneVo> items;
 }

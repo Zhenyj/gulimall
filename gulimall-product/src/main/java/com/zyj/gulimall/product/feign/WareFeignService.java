@@ -20,6 +20,7 @@ public interface WareFeignService {
      * 2、直接返回结果
      * 3、自己封装结果集,例如公共vo放在公共服务里
      * 这里使用第一种方法
+     *
      * @param skuIds
      * @return
      */

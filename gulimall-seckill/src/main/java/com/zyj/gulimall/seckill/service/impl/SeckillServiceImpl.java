@@ -130,9 +130,7 @@ public class SeckillServiceImpl implements SeckillService {
             String key = SESSIONS_CACHE_PREFIX + session.getStartTime().getTime() + "_" + session.getEndTime().getTime();
             if (!redisTemplate.hasKey(key)) {
                 List<SeckillSkuVo> relationSkus = session.getRelationSkus();
-                List<String> values = relationSkus.stream()
-                        .map(sku -> sku.getPromotionSessionId() + "_" + sku.getSkuId())
-                        .collect(Collectors.toList());
+                List<String> values = relationSkus.stream().map(sku -> sku.getPromotionSessionId() + "_" + sku.getSkuId()).collect(Collectors.toList());
                 //缓存活动信息
                 redisTemplate.opsForList().leftPushAll(key, values);
                 log.info("商品秒杀活动信息缓存成功");

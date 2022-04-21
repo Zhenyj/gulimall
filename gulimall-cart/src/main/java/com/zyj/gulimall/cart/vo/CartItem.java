@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2022-01-22 23:49
  **/
 @Data
-public class CartItem{
+public class CartItem {
 
     private Long skuId;
     private Boolean check = true;

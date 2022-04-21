@@ -14,19 +14,19 @@ import java.util.List;
  **/
 @Data
 public class SearchResult {
-    /**查询到的商品信息*/
+    /** 查询到的商品信息 */
     private List<SkuEsModel> products;
 
-    /**当前页数*/
+    /** 当前页数 */
     private Integer pageNum;
 
     /** 总记录数 */
     private Long total;
 
-    /**总页码*/
+    /** 总页码 */
     private Integer totalPages;
 
-    /**相关品牌信息*/
+    /** 相关品牌信息 */
     private List<BrandVo> brands;
 
     /** 涉及的所有属性 */

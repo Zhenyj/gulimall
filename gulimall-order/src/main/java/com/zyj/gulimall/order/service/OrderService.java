@@ -23,12 +23,14 @@ public interface OrderService extends IService<OrderEntity> {
 
     /**
      * 返回订单确认页需要的数据
+     *
      * @return
      */
     OrderConfirmVo confirmOrder() throws ExecutionException, InterruptedException;
 
     /**
      * 提交订单
+     *
      * @param vo
      * @return
      */
@@ -40,21 +42,24 @@ public interface OrderService extends IService<OrderEntity> {
 
     /**
      * 关闭订单
+     *
      * @param order
      */
     void closeOrder(OrderEntity order);
 
     /**
      * 处理支付
+     *
      * @param vo
      * @return
      */
     String handlePayResult(PayAsyncVo vo) throws ParseException;
 
-    void updateOrderStatusByOrderSn(String orderSn,int status);
+    void updateOrderStatusByOrderSn(String orderSn, int status);
 
     /**
      * 分页查询
+     *
      * @param params
      * @return
      */

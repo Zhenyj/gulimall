@@ -26,6 +26,7 @@ public class PayController {
     /**
      * 1、将支付页让浏览器展示
      * 2、支付成功以后，我们要跳到用户的订单列表页
+     *
      * @param orderSn 订单号
      * @return 支付页面
      * @throws AlipayApiException 异常

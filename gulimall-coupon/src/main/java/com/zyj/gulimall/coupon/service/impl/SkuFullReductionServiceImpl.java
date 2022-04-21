@@ -37,18 +37,17 @@ public class SkuFullReductionServiceImpl extends ServiceImpl<SkuFullReductionDao
     MemberPriceService memberPriceService;
 
     @Override
-    public PageUtils queryPage (Map<String, Object> params) {
+    public PageUtils queryPage(Map<String, Object> params) {
         IPage<SkuFullReductionEntity> page = this.page(
                 new Query<SkuFullReductionEntity>().getPage(params),
-                new QueryWrapper<SkuFullReductionEntity>()
-        );
+                new QueryWrapper<SkuFullReductionEntity>());
 
         return new PageUtils(page);
     }
 
     @Transactional
     @Override
-    public void saveSkuReduction (SkuReductionTo skuReductionTo) {
+    public void saveSkuReduction(SkuReductionTo skuReductionTo) {
         // 1、sku的优惠、满减信息，gulimall-sms数据库中sms_sku_ladder、sms_sku_full_reduction、sms_member_price
         // sms_sku_ladder
         SkuLadderEntity skuLadderEntity = new SkuLadderEntity();

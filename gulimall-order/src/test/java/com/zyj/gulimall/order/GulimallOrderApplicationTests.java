@@ -17,17 +17,17 @@ class GulimallOrderApplicationTests {
 
 
     @Test
-    void testSnowFlake(){
+    void testSnowFlake() {
         long l = IdUtil.getSnowflake().nextId();
         System.out.println(l);
     }
 
     @Test
-    void contextLoads () {
+    void contextLoads() {
     }
 
     @Test
-    void textSelect(){
+    void textSelect() {
         List<OrderEntity> list = orderService.list();
         //list.forEach((item)->{
         //    System.out.println(item);

@@ -32,7 +32,7 @@
         <spring-cloud-loadbalancer.version>3.0.3</spring-cloud-loadbalancer.version>
         <spring-cloud-starter-bootstrap.version>3.0.3</spring-cloud-starter-bootstrap.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
-        <fastjson.version>1.2.78</fastjson.version>
+        <fastjson.version>1.2.72</fastjson.version>
         <zipkin.version>2.2.8.RELEASE</zipkin.version>
     </properties>
 
@@ -159,10 +159,10 @@
         </dependency>
 
         <!-- sleuth链路追踪 -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-sleuth</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-sleuth</artifactId>-->
+        <!--        </dependency>-->
 
         <!-- zipkin包含sleuth,可以省略sleuth依赖 -->
         <dependency>

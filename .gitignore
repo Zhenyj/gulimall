@@ -21,10 +21,8 @@ bin-release/
 # 忽略
 **/mvnw
 **/mvnw.cmd
-
 **/.mvn
 **/target/
-
 .idea
-
 **/.gitignore
+**/node_module

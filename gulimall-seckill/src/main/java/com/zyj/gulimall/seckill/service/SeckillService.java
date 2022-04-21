@@ -24,6 +24,7 @@ public interface SeckillService {
 
     /**
      * 获取sku对应的秒杀信息
+     *
      * @param skuId
      * @return
      */
@@ -31,6 +32,7 @@ public interface SeckillService {
 
     /**
      * 秒杀商品
+     *
      * @param killId
      * @param key
      * @param num

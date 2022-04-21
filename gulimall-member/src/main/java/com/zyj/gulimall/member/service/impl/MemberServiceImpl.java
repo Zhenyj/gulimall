@@ -39,8 +39,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<MemberEntity> page = this.page(
                 new Query<MemberEntity>().getPage(params),
-                new QueryWrapper<MemberEntity>()
-        );
+                new QueryWrapper<MemberEntity>());
 
         return new PageUtils(page);
     }
@@ -91,17 +90,15 @@ public class MemberServiceImpl extends ServiceImpl<MemberDao, MemberEntity> impl
         MemberEntity member = memberDao.selectMemberByLoginAccount(loginAccount);
         if (member == null) {
             return null;
-        } else {
-            String passwordDb = member.getPassword();
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            // 密码匹配
-            boolean matches = passwordEncoder.matches(password, passwordDb);
-            if (matches) {
-                return member;
-            } else {
-                return null;
-            }
         }
+        String passwordDb = member.getPassword();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        // 密码匹配
+        boolean matches = passwordEncoder.matches(password, passwordDb);
+        if (matches) {
+            return member;
+        }
+        return null;
     }
 
     @Override

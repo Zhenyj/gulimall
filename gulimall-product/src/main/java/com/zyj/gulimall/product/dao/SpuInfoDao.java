@@ -17,10 +17,17 @@ import java.util.List;
 @Mapper
 public interface SpuInfoDao extends BaseMapper<SpuInfoEntity> {
 
+    /**
+     * 修改spu上架状态
+     *
+     * @param spuId
+     * @param code
+     */
     void updateSpuStatus(@Param("spuId") Long spuId, @Param("code") int code);
 
     /**
      * 根据skuId获取spu信息
+     *
      * @param skuId
      * @return
      */

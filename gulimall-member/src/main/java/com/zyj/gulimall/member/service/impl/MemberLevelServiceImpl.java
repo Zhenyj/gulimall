@@ -20,16 +20,14 @@ public class MemberLevelServiceImpl extends ServiceImpl<MemberLevelDao, MemberLe
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<MemberLevelEntity> page = this.page(
                 new Query<MemberLevelEntity>().getPage(params),
-                new QueryWrapper<MemberLevelEntity>()
-        );
+                new QueryWrapper<MemberLevelEntity>());
 
         return new PageUtils(page);
     }
 
     @Override
     public MemberLevelEntity getDefaultLevel() {
-        MemberLevelEntity memberLevelEntity = baseMapper.selectOne(new QueryWrapper<MemberLevelEntity>()
-                .eq("default_status", 1));
+        MemberLevelEntity memberLevelEntity = baseMapper.selectOne(new QueryWrapper<MemberLevelEntity>().eq("default_status", 1));
         return memberLevelEntity;
     }
 

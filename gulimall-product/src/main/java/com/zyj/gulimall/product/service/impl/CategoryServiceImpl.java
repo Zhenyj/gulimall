@@ -47,8 +47,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CategoryEntity> page = this.page(
                 new Query<CategoryEntity>().getPage(params),
-                new QueryWrapper<CategoryEntity>()
-        );
+                new QueryWrapper<CategoryEntity>());
 
         return new PageUtils(page);
     }
@@ -133,13 +132,11 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * @param category
      */
     //单个操作可用Cacheable或CacheEvict
-//    @CacheEvict(value = "category", key = "'getLevel1Categorys'")
-    // 多个操作可用使用Caching标注多个操作
+//    @CacheEvict(value = "category", key = "'getLevel1Categorys'")// 多个操作可用使用Caching标注多个操作
 //    @Caching(evict = {
 //            @CacheEvict(value = "category", key = "'getLevel1Categorys'"),
 //            @CacheEvict(value = "category", key = "'getCatalogJson'")
-//    })
-    //allEntries是否删除某个分区下的所有缓存
+//    })//allEntries是否删除某个分区下的所有缓存
     //同类型数据可以指定同一个分区，方便统一操作
     @CacheEvict(value = "category", allEntries = true) // 用于失效模式，删除同个分区下的所有缓存
 //    @CachePut //用于双写模式，将返回值放入缓存中
@@ -161,8 +158,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     @Override
     public List<CategoryEntity> getLevel1Categorys() {
         log.info("获取一级分类数据");
-        List<CategoryEntity> categoryEntities = baseMapper.selectList(new QueryWrapper<CategoryEntity>()
-                .eq("parent_cid", 0));
+        List<CategoryEntity> categoryEntities = baseMapper.selectList(new QueryWrapper<CategoryEntity>().eq("parent_cid", 0));
         if (CollectionUtils.isEmpty(categoryEntities)) {
             log.error(BizCodeEnum.PRODUCT_CATEGORY_EXCEPTION.getMsg());
             throw new RuntimeException(BizCodeEnum.PRODUCT_CATEGORY_EXCEPTION.getMsg());
@@ -180,6 +176,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                     new TypeReference<Map<String, List<Catalog2Vo>>>() {
                     });
             return result;
+
         }
         System.out.println("查询数据库中...");
         List<CategoryEntity> selectList = baseMapper.selectList(null);
@@ -187,34 +184,33 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         List<CategoryEntity> level1Categorys = getParentCid(selectList, 0L);
 
         // 封装数据
-        Map<String, List<Catalog2Vo>> Catalog2VoMap = level1Categorys.stream()
-                .collect(Collectors.toMap(k -> k.getCatId().toString(), v -> {
-                    // 查询二级分类
-                    List<CategoryEntity> categoryEntities = getParentCid(selectList, v.getCatId());
-                    // 封装结果
-                    List<Catalog2Vo> Catalog2Vos = null;
-                    if (!CollectionUtils.isEmpty(categoryEntities)) {
-                        Catalog2Vos = categoryEntities.stream().map(l2 -> {
-                            // 查找当前二级分类的三级分类数据
-                            List<CategoryEntity> categoryEntities1 = getParentCid(selectList, l2.getCatId());
-                            List<Catalog2Vo.Catalog3Vo> catalog3Vos = null;
-                            if (!CollectionUtils.isEmpty(categoryEntities1)) {
-                                catalog3Vos = categoryEntities1.stream().map(l3 -> {
-                                    Catalog2Vo.Catalog3Vo Catalog3Vo = new Catalog2Vo.Catalog3Vo(l2.getCatId().toString(),
-                                            l3.getCatId().toString(), l3.getName());
-                                    return Catalog3Vo;
-                                }).collect(Collectors.toList());
-                            } else {
-                                log.info("当前分类:{},没有三级分类", l2.getCatId());
-                            }
-
-                            Catalog2Vo Catalog2Vo = new Catalog2Vo(v.getCatId().toString(), catalog3Vos,
-                                    l2.getCatId().toString(), l2.getName());
-                            return Catalog2Vo;
+        Map<String, List<Catalog2Vo>> Catalog2VoMap = level1Categorys.stream().collect(Collectors.toMap(k -> k.getCatId().toString(), v -> {
+            // 查询二级分类
+            List<CategoryEntity> categoryEntities = getParentCid(selectList, v.getCatId());
+            // 封装结果
+            List<Catalog2Vo> Catalog2Vos = null;
+            if (!CollectionUtils.isEmpty(categoryEntities)) {
+                Catalog2Vos = categoryEntities.stream().map(l2 -> {
+                    // 查找当前二级分类的三级分类数据
+                    List<CategoryEntity> categoryEntities1 = getParentCid(selectList, l2.getCatId());
+                    List<Catalog2Vo.Catalog3Vo> catalog3Vos = null;
+                    if (!CollectionUtils.isEmpty(categoryEntities1)) {
+                        catalog3Vos = categoryEntities1.stream().map(l3 -> {
+                            Catalog2Vo.Catalog3Vo Catalog3Vo = new Catalog2Vo.Catalog3Vo(l2.getCatId().toString(),
+                                    l3.getCatId().toString(), l3.getName());
+                            return Catalog3Vo;
                         }).collect(Collectors.toList());
+                    } else {
+                        log.info("当前分类:{},没有三级分类", l2.getCatId());
                     }
-                    return Catalog2Vos;
-                }));
+
+                    Catalog2Vo Catalog2Vo = new Catalog2Vo(v.getCatId().toString(), catalog3Vos,
+                            l2.getCatId().toString(), l2.getName());
+                    return Catalog2Vo;
+                }).collect(Collectors.toList());
+            }
+            return Catalog2Vos;
+        }));
         return Catalog2VoMap;
     }
 
@@ -322,8 +318,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         // set key value nx 如果key不存在，将key设置值为value
         // 是否占用成功
         String uuid = UUID.randomUUID().toString();
-        Boolean lock = redisTemplate.opsForValue()
-                .setIfAbsent("lock", uuid, 100, TimeUnit.SECONDS);
+        Boolean lock = redisTemplate.opsForValue().setIfAbsent("lock", uuid, 100, TimeUnit.SECONDS);
         // setIfAbsent("lock", "111",100,TimeUnit.SECONDS) ==> set lock 111 EX 100 NX
         if (lock) {
             System.out.println("获取分布式锁成功...");

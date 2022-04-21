@@ -54,8 +54,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SkuInfoEntity> page = this.page(
                 new Query<SkuInfoEntity>().getPage(params),
-                new QueryWrapper<SkuInfoEntity>()
-        );
+                new QueryWrapper<SkuInfoEntity>());
 
         return new PageUtils(page);
     }
@@ -179,8 +178,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
     @Override
     public List<BigDecimal> getSkuPriceBySkuIds(List<Long> skuIds) {
         List<SkuInfoEntity> skuInfoEntities = baseMapper.selectBatchIds(skuIds);
-        List<BigDecimal> prices = skuInfoEntities.stream().map(SkuInfoEntity::getPrice)
-                .collect(Collectors.toList());
+        List<BigDecimal> prices = skuInfoEntities.stream().map(SkuInfoEntity::getPrice).collect(Collectors.toList());
         return prices;
     }
 

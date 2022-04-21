@@ -15,45 +15,34 @@ public class MemberAddressVo extends BaseEntity {
     private Long id;
 
     /** member_id */
-//    @Excel(name = "member_id")
-    private Long memberId;
+//    @Excel(name = "member_id")private Long memberId;
 
     /** 收货人姓名 */
-//    @Excel(name = "收货人姓名")
-    private String name;
+//    @Excel(name = "收货人姓名")private String name;
 
     /** 电话 */
-//    @Excel(name = "电话")
-    private String phone;
+//    @Excel(name = "电话")private String phone;
 
     /** 邮政编码 */
-//    @Excel(name = "邮政编码")
-    private String postCode;
+//    @Excel(name = "邮政编码")private String postCode;
 
     /** 省份/直辖市 */
-//    @Excel(name = "省份/直辖市")
-    private String province;
+//    @Excel(name = "省份/直辖市")private String province;
 
     /** 城市 */
-//    @Excel(name = "城市")
-    private String city;
+//    @Excel(name = "城市")private String city;
 
     /** 区 */
-//    @Excel(name = "区")
-    private String region;
+//    @Excel(name = "区")private String region;
 
     /** 详细地址(街道) */
-//    @Excel(name = "详细地址(街道)")
-    private String detailAddress;
+//    @Excel(name = "详细地址(街道)")private String detailAddress;
 
     /** 省市区代码 */
-//    @Excel(name = "省市区代码")
-    private String areacode;
+//    @Excel(name = "省市区代码")private String areacode;
 
     /** 是否默认 */
-//    @Excel(name = "是否默认")
-    private Integer defaultStatus;
-
+//    @Excel(name = "是否默认")private Integer defaultStatus;
     public void setId(Long id) {
         this.id = id;
     }
@@ -144,18 +133,6 @@ public class MemberAddressVo extends BaseEntity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("memberId", getMemberId())
-                .append("name", getName())
-                .append("phone", getPhone())
-                .append("postCode", getPostCode())
-                .append("province", getProvince())
-                .append("city", getCity())
-                .append("region", getRegion())
-                .append("detailAddress", getDetailAddress())
-                .append("areacode", getAreacode())
-                .append("defaultStatus", getDefaultStatus())
-                .toString();
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("id", getId()).append("memberId", getMemberId()).append("name", getName()).append("phone", getPhone()).append("postCode", getPostCode()).append("province", getProvince()).append("city", getCity()).append("region", getRegion()).append("detailAddress", getDetailAddress()).append("areacode", getAreacode()).append("defaultStatus", getDefaultStatus()).toString();
     }
 }

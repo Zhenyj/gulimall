@@ -1871,47 +1871,35 @@
 <script>
     $(".sl_ext a:nth-child(1)").hover(function () {
         $(this).children("b").stop(true).animate({top: "3px"}, 50);
-        $(this).children("i").stop(true).animate({top: "-23px"}, 50)
-    }, function () {
+        $(this).children("i").stop(true).animate({top: "-23px"}, 50)}, function () {
         $(this).children("b").stop(true).animate({top: "24px"}, 50);
-        $(this).children("i").stop(true).animate({top: "3px"}, 50)
-    });
+        $(this).children("i").stop(true).animate({top: "3px"}, 50)});
     $(".sl_ext a:nth-child(2)").hover(function () {
         $(this).children("span").stop(true).animate({top: "-1px"}, 100);
-        $(this).children("i").stop(true).animate({top: "-14px"}, 100).css({display: "none"})
-    }, function () {
+        $(this).children("i").stop(true).animate({top: "-14px"}, 100).css({display: "none"})}, function () {
         $(this).children("span").stop(true).animate({top: "14px"}, 100);
-        $(this).children("i").stop(true).animate({top: "-1px"}, 100).css({display: "block"})
-    });
+        $(this).children("i").stop(true).animate({top: "-1px"}, 100).css({display: "block"})});
     $('.tab_im img').hover(function () {
         var a = $(this).prop('src');
         var index = $(this).parents('li').index();
         $(this).parents('li').css('border', '2px solid red').siblings('li').css('border', '1px solid #ccc');
         $(this).parents('ul').prev().find('img').prop('src', a);
         $(this).parents('ul').siblings('.tab_JE').find('a').eq(list).css('display', 'block').siblings('a').css('display', 'none');
-        $(this).parents('ul').siblings('.tab_R').find('span').eq(list).css('display', 'block').siblings('span').css('display', 'none')
-    });
+        $(this).parents('ul').siblings('.tab_R').find('span').eq(list).css('display', 'block').siblings('span').css('display', 'none')});
 
     $(".JD_ipone_one").hover(function () {
-        $(this).children("div").css({display: "block"})
-    }, function () {
-        $(this).children("div").css({display: "none"})
-    });
+        $(this).children("div").css({display: "block"})}, function () {
+        $(this).children("div").css({display: "none"})});
 
     $("#tab>li").click(function () {
         var i = $(this).index();
-        $("#container>div").hide().eq(i).show()
-    });
+        $("#container>div").hide().eq(i).show()});
     $(".dizhi_show").hover(function () {
-        $(".dizhi_con").css({display: "block"})
-    }, function () {
-        $(".dizhi_con").css({display: "none"})
-    });
+        $(".dizhi_con").css({display: "block"})}, function () {
+        $(".dizhi_con").css({display: "none"})});
     $(".dizhi_con").hover(function () {
-        $(this).css({display: "block"})
-    }, function () {
-        $(this).css({display: "none"})
-    });
+        $(this).css({display: "block"})}, function () {
+        $(this).css({display: "none"})});
     //显示隐藏
     var $li = $(".JD_nav_logo>div:gt(3)").hide();
     $('.JD_show span').click(function () {
@@ -1928,45 +1916,35 @@
 
     $(".rig_tab>div").hover(function () {
         var i = $(this).index();
-        $(this).find('.ico').css({display: 'block'}).stop(true).animate({top: "190px"}, 300)
-    }, function () {
+        $(this).find('.ico').css({display: 'block'}).stop(true).animate({top: "190px"}, 300)}, function () {
         var i = $(this).index();
-        $(this).find('.ico').css({display: 'none'}).stop(true).animate({top: "230px"})
-    });
+        $(this).find('.ico').css({display: 'none'}).stop(true).animate({top: "230px"})});
 
     $('.header_main_left>ul>li').hover(function () {
         $(this).css({
             background: "#f0f0f0"
-        }).find('.header_main_left_main').stop(true).fadeIn(300)
-    }, function () {
+        }).find('.header_main_left_main').stop(true).fadeIn(300)}, function () {
         $(this).css({
             background: "#fff"
         }).find(".header_main_left_a").css({
             color: "#000"
         });
-        $(this).find('.header_main_left_main').stop(true).fadeOut(100)
-    });
+        $(this).find('.header_main_left_main').stop(true).fadeOut(100)});
     $(".header_sj a").hover(function () {
         $(this).css({
             background: "#444"
-        })
-    }, function () {
+        })}, function () {
         $(this).css({
             background: "#6e6568"
-        })
-    });
+        })});
 
 
     $(".nav_li1 a").hover(function () {
-        $(".header_main_left").stop(true).fadeIn()
-    }, function () {
-        $(".header_main_left").stop(true).fadeOut()
-    });
+        $(".header_main_left").stop(true).fadeIn()}, function () {
+        $(".header_main_left").stop(true).fadeOut()});
     $(".header_main_left").hover(function () {
-        $(this).stop(true).fadeIn()
-    }, function () {
-        $(this).stop(true).fadeOut()
-    });
+        $(this).stop(true).fadeIn()}, function () {
+        $(this).stop(true).fadeOut()});
 
 
     //右侧侧边栏
@@ -1977,30 +1955,24 @@
             display: "block"
         }).stop(true).animate({
             left: "-60px"
-        }, 300)
-    }, function () {
+        }, 300)}, function () {
         $(this).css({
             background: "#7A6E6E"
         }).children(".div").css({
             display: "none"
         }).stop(true).animate({
             left: "0"
-        }, 300)
-    });
+        }, 300)});
 
 
     //底部
     $(".footer_foot .p1 a").hover(function () {
-        $(this).css("color", "#D70B1C")
-    }, function () {
-        $(this).css("color", "#727272")
-    });
+        $(this).css("color", "#D70B1C")}, function () {
+        $(this).css("color", "#727272")});
 
     $(".footer .footer_center ol li a").hover(function () {
-        $(this).css("color", "#D70B1C")
-    }, function () {
-        $(this).css("color", "#727272")
-    })
+        $(this).css("color", "#D70B1C")}, function () {
+        $(this).css("color", "#727272")})
 
     function searchProducts(name, value, forceAdd = true) {
         //原来的页面
@@ -2014,8 +1986,7 @@
     $(".page_a").click(function () {
         var pn = $(this).attr("pn");
         var href = location.href;
-        location.href = replaceAndAddParamVal(href, "pageNum", pn)
-        return false;
+        location.href = replaceAndAddParamVal(href, "pageNum", pn)    return false;
     });
 
     function replaceAndAddParamVal(url, paramName, replaceVal, forceAdd) {
@@ -2056,8 +2027,7 @@
     function changeStyle(ele) {
         // 'color: #333;border-color:#CCC;background: #fff'
         // 'color: #FFF;border-color:#e4393c;background: #e4393c'
-        $(".sort_a").css({"color": "#333", "border-color": "#CCC", "background": "#FFF"})
-        $(".sort_a").each(function () {
+        $(".sort_a").css({"color": "#333", "border-color": "#CCC", "background": "#FFF"})    $(".sort_a").each(function () {
             var text = $(this).text().replace("↓", "").replace("↑", "");
             $(this).text(text);
         });

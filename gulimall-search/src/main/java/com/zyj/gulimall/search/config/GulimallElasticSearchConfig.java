@@ -25,18 +25,18 @@ public class GulimallElasticSearchConfig {
 
     public static final RequestOptions COMMON_OPTIONS;
 
-    static{
-        RequestOptions.Builder  builder = RequestOptions.DEFAULT.toBuilder();
+    static {
+        RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
         COMMON_OPTIONS = builder.build();
     }
 
     @Bean
-    public RestHighLevelClient esRestClient(){
+    public RestHighLevelClient esRestClient() {
         RestClientBuilder builder = null;
 
         builder = RestClient.builder(new HttpHost(hostname, port, "http"));
 
-        RestHighLevelClient client  = new RestHighLevelClient(builder);
+        RestHighLevelClient client = new RestHighLevelClient(builder);
         return client;
     }
 }

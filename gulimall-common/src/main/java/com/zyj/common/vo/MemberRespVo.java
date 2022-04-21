@@ -237,28 +237,6 @@ public class MemberRespVo extends BaseEntity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("id", getId())
-                .append("levelId", getLevelId())
-                .append("username", getUsername())
-                .append("password", getPassword())
-                .append("nickname", getNickname())
-                .append("mobile", getMobile())
-                .append("email", getEmail())
-                .append("header", getHeader())
-                .append("gender", getGender())
-                .append("birth", getBirth())
-                .append("city", getCity())
-                .append("job", getJob())
-                .append("sign", getSign())
-                .append("sourceType", getSourceType())
-                .append("integration", getIntegration())
-                .append("growth", getGrowth())
-                .append("status", getStatus())
-                .append("createTime", getCreateTime())
-                .append("socialUid", getSocialUid())
-                .append("accessToken", getAccessToken())
-                .append("expiresIn", getExpiresIn())
-                .toString();
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("id", getId()).append("levelId", getLevelId()).append("username", getUsername()).append("password", getPassword()).append("nickname", getNickname()).append("mobile", getMobile()).append("email", getEmail()).append("header", getHeader()).append("gender", getGender()).append("birth", getBirth()).append("city", getCity()).append("job", getJob()).append("sign", getSign()).append("sourceType", getSourceType()).append("integration", getIntegration()).append("growth", getGrowth()).append("status", getStatus()).append("createTime", getCreateTime()).append("socialUid", getSocialUid()).append("accessToken", getAccessToken()).append("expiresIn", getExpiresIn()).toString();
     }
 }

@@ -6,6 +6,6 @@ package com.zyj.gulimall.order.constant;
  **/
 public class AlipayConstant {
 
-        public static final String TRADE_SUCCESS = "TRADE_SUCCESS";
-        public static final String TRADE_FINISHED = "TRADE_FINISHED";
+    public static final String TRADE_SUCCESS = "TRADE_SUCCESS";
+    public static final String TRADE_FINISHED = "TRADE_FINISHED";
 }

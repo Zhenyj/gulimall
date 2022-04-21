@@ -36,8 +36,7 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<AttrGroupEntity> page = this.page(
                 new Query<AttrGroupEntity>().getPage(params),
-                new QueryWrapper<AttrGroupEntity>()
-        );
+                new QueryWrapper<AttrGroupEntity>());
 
         return new PageUtils(page);
     }
@@ -46,8 +45,8 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
     public PageUtils queryPage(Map<String, Object> params, Long catelogId) {
         IPage<AttrGroupEntity> page = null;
         String key = (String) params.get("key");
-        // SELECT * FROM pms_attr_group where catelog_id=? and (attr_group_id=key or attr_group_name LIKE %key%)
-        QueryWrapper<AttrGroupEntity> wrapper = new QueryWrapper<AttrGroupEntity>();
+        // SELECT * FROM pms_attr_group where catelog_id=? and (attr_group_id=key or attr_group_name LIKE %key%)    QueryWrapper<AttrGroupEntity> wrapper = new QueryWrapper<AttrGroupEntity>();
+        QueryWrapper<AttrGroupEntity> wrapper = new QueryWrapper<>();
         if (StringUtils.hasText(key)) {
             wrapper.and((obj) -> {
                 obj.eq("attr_group_id", key).or().like("attr_group_name", key);

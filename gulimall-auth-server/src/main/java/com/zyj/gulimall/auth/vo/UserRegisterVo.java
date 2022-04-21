@@ -21,7 +21,7 @@ public class UserRegisterVo {
     private String password;
 
     @NotBlank(message = "手机号必须填写")
-    @Pattern(regexp = "^0?(13|14|15|18|17)[0-9]{9}$", message = "手机号格式不正确")
+    @Pattern(regexp = "^1[0-9]{10}$", message = "手机号格式不正确")
     private String phone;
 
     @NotBlank(message = "验证码必须填写")

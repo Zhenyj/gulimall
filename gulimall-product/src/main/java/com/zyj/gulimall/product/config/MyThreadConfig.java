@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class MyThreadConfig {
 
-
     @Bean
     public ThreadPoolExecutor threadPoolExecutor(ThreadPoolConfigProperties pool) {
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(pool.getCorePoolSize(),

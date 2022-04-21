@@ -43,8 +43,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<PurchaseEntity> page = this.page(
                 new Query<PurchaseEntity>().getPage(params),
-                new QueryWrapper<PurchaseEntity>()
-        );
+                new QueryWrapper<PurchaseEntity>());
 
         return new PageUtils(page);
     }
@@ -53,8 +52,7 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
     public PageUtils queryPageUnreceivePurchase(Map<String, Object> params) {
         IPage<PurchaseEntity> page = this.page(
                 new Query<PurchaseEntity>().getPage(params),
-                new QueryWrapper<PurchaseEntity>().eq("status", 0).or().eq("status", 1)
-        );
+                new QueryWrapper<PurchaseEntity>().eq("status", 0).or().eq("status", 1));
 
         return new PageUtils(page);
     }

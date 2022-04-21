@@ -7,8 +7,6 @@ import com.zyj.gulimall.order.entity.MqMessageEntity;
 import java.util.Map;
 
 /**
- * 
- *
  * @author zyj
  * @email zyj@gmail.com
  * @date 2021-08-01 21:50:41

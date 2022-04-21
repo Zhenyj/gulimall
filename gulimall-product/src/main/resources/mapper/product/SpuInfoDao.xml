@@ -19,8 +19,7 @@
         UPDATE
             `pms_spu_info`
         SET `publish_status`=#{code},
-            `update_time`=NOW()
-        WHERE id = #{spuId}
+            `update_time`=NOW()    WHERE id = #{spuId}
     </update>
     <select id="getSpuInfoBySkuId" resultMap="spuInfoMap">
         SELECT spu.id,

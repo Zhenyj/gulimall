@@ -20,7 +20,6 @@ import com.zyj.common.utils.PageUtils;
 import com.zyj.common.utils.R;
 
 
-
 /**
  * 优惠券信息
  *
@@ -42,13 +41,13 @@ public class CouponController {
     Integer age;
 
     @RequestMapping("/test")
-    public R test(){
+    public R test() {
         return R.ok().put("name", name).put("age", age);
     }
 
 
     @RequestMapping("/member/list")
-    public R memberCoupons(){
+    public R memberCoupons() {
         CouponEntity couponEntity = new CouponEntity();
         couponEntity.setCouponName("满100减10");
         return R.ok().put("coupons", Arrays.asList(couponEntity));
@@ -58,8 +57,7 @@ public class CouponController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("coupon:coupon:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = couponService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -70,9 +68,8 @@ public class CouponController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("coupon:coupon:info")
-    public R info(@PathVariable("id") Long id){
-		CouponEntity coupon = couponService.getById(id);
+    public R info(@PathVariable("id") Long id) {
+        CouponEntity coupon = couponService.getById(id);
 
         return R.ok().put("coupon", coupon);
     }
@@ -81,9 +78,8 @@ public class CouponController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("coupon:coupon:save")
-    public R save(@RequestBody CouponEntity coupon){
-		couponService.save(coupon);
+    public R save(@RequestBody CouponEntity coupon) {
+        couponService.save(coupon);
 
         return R.ok();
     }
@@ -92,9 +88,8 @@ public class CouponController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("coupon:coupon:update")
-    public R update(@RequestBody CouponEntity coupon){
-		couponService.updateById(coupon);
+    public R update(@RequestBody CouponEntity coupon) {
+        couponService.updateById(coupon);
 
         return R.ok();
     }
@@ -103,9 +98,8 @@ public class CouponController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("coupon:coupon:delete")
-    public R delete(@RequestBody Long[] ids){
-		couponService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Long[] ids) {
+        couponService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

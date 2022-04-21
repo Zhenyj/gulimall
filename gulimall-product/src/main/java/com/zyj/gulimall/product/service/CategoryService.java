@@ -19,30 +19,34 @@ public interface CategoryService extends IService<CategoryEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    List<CategoryEntity> listWithTree ();
+    List<CategoryEntity> listWithTree();
 
-    void removeMenuByIds (List<Long> asList);
+    void removeMenuByIds(List<Long> asList);
 
     /**
      * 找到catelogId的完整路径
      * [父,子,孙]
+     *
      * @param catelogId
      * @return
      */
-    Long[] findCatelogPath (Long catelogId);
+    Long[] findCatelogPath(Long catelogId);
 
-    /*
-    * 级联更新所有关联的数据
-    * */
-    void updateCascade (CategoryEntity category);
+    /**
+     * 级联更新所有关联的数据
+     * @param category
+     */
+    void updateCascade(CategoryEntity category);
 
-    /*
-    * 查询所有以及分类
-    * */
+    /**
+     * 查询所有以及分类
+     * @return
+     */
     List<CategoryEntity> getLevel1Categorys();
 
     /**
      * 查询
+     *
      * @return
      */
     Map<String, List<Catalog2Vo>> getCatalogJson();

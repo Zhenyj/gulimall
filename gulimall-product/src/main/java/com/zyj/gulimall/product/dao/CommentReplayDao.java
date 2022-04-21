@@ -6,12 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 商品评价回复关系
- * 
+ *
  * @author zyj
  * @email zyj@gmail.com
  * @date 2021-08-01 21:47:32
  */
 @Mapper
 public interface CommentReplayDao extends BaseMapper<CommentReplayEntity> {
-	
+
 }

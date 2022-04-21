@@ -25,16 +25,15 @@ public class SpuImagesServiceImpl extends ServiceImpl<SpuImagesDao, SpuImagesEnt
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SpuImagesEntity> page = this.page(
                 new Query<SpuImagesEntity>().getPage(params),
-                new QueryWrapper<SpuImagesEntity>()
-        );
+                new QueryWrapper<SpuImagesEntity>());
 
         return new PageUtils(page);
     }
 
     @Transactional
     @Override
-    public void saveImages (Long id, List<String> images) {
-        if(images== null || images.size() ==0){
+    public void saveImages(Long id, List<String> images) {
+        if (images == null || images.size() == 0) {
             return;
         }
         List<SpuImagesEntity> collect = images.stream().map(img -> {

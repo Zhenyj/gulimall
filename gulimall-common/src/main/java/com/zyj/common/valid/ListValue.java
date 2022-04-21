@@ -16,15 +16,15 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @create 2021-08-24 0:04
  */
 @Documented
-@Constraint(validatedBy = { ListValueConstraintValidator.class })
-@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
+@Constraint(validatedBy = {ListValueConstraintValidator.class})
+@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Retention(RUNTIME)
 public @interface ListValue {
     String message() default "{com.zyj.common.valid.ListValue.message}";
 
-    Class<?>[] groups() default { };
+    Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default { };
+    Class<? extends Payload>[] payload() default {};
 
-    int[] vals() default { };
+    int[] vals() default {};
 }

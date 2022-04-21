@@ -77,7 +77,7 @@ public class OAuth2Controller {
                     session.setAttribute(AuthConstant.LOGIN_USER, data);
                     session.setMaxInactiveInterval(60 * 60 * 24 * 30);
                     // TODO 解决session作用域问题，使子域名也可以共享session
-                    
+
                     // TODO 使用JSON序列化方式存储到redis中
 
                     return "redirect:http://gulimall.com";

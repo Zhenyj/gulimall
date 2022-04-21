@@ -26,9 +26,9 @@ public class OrderSeckillListener {
 
     @RabbitHandler
     public void listener(SeckillOrderTo orderTo, Channel channel, Message message) throws IOException {
-        int [][] arr = new int[10][10];
-        int [] arr1[] = new int[10][10];
-        int  arr2 [][] = new int[10][10];
+        int[][] arr = new int[10][10];
+        int[] arr1[] = new int[10][10];
+        int arr2[][] = new int[10][10];
         log.info("监听到秒杀订单:{}", orderTo.getOrderSn());
         try {
             orderService.createSeckillOrder(orderTo);

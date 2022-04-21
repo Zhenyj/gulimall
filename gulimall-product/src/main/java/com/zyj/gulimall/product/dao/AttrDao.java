@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * 商品属性
- * 
+ *
  * @author zyj
  * @email zyj@gmail.com
  * @date 2021-08-01 21:47:31

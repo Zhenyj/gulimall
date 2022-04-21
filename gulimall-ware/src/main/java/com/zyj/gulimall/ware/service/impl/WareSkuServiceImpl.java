@@ -95,7 +95,8 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
     @Override
     public void addStock(Long skuId, Long wareId, Integer skuNum) {
         //1、判断如果还没有这个库存记录新增
-        List<WareSkuEntity> entities = wareSkuDao.selectList(new QueryWrapper<WareSkuEntity>().eq("sku_id", skuId).eq("ware_id", wareId));
+        List<WareSkuEntity> entities = wareSkuDao.selectList(new QueryWrapper<WareSkuEntity>()
+                .eq("sku_id", skuId).eq("ware_id", wareId));
         if (entities == null || entities.size() == 0) {
             WareSkuEntity skuEntity = new WareSkuEntity();
             skuEntity.setSkuId(skuId);
@@ -275,9 +276,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         }
 
         Long taskId = task.getId();
-        List<WareOrderTaskDetailEntity> entities = wareOrderTaskDetailService.list(new QueryWrapper<WareOrderTaskDetailEntity>()
-                .eq("task_id", taskId)
-                .eq("lock_status", WareConstant.LockStatusEnum.LOCKED.getStatus()));
+        List<WareOrderTaskDetailEntity> entities = wareOrderTaskDetailService.list(new QueryWrapper<WareOrderTaskDetailEntity>().eq("task_id", taskId).eq("lock_status", WareConstant.LockStatusEnum.LOCKED.getStatus()));
         for (WareOrderTaskDetailEntity entity : entities) {
             unlockStock(entity.getSkuId(), entity.getWareId(), entity.getSkuNum(), entity.getId());
         }

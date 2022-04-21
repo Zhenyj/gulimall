@@ -6,12 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 会员登录记录
- * 
+ *
  * @author zyj
  * @email zyj@gmail.com
  * @date 2021-08-01 21:56:03
  */
 @Mapper
 public interface MemberLoginLogDao extends BaseMapper<MemberLoginLogEntity> {
-	
+
 }

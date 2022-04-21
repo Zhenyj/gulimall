@@ -17,10 +17,7 @@ import com.zyj.common.utils.PageUtils;
 import com.zyj.common.utils.R;
 
 
-
 /**
- * 
- *
  * @author zyj
  * @email zyj@gmail.com
  * @date 2021-08-01 21:56:03
@@ -35,8 +32,7 @@ public class UndoLogController {
      * 列表
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("member:undolog:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = undoLogService.queryPage(params);
 
         return R.ok().put("page", page);
@@ -47,9 +43,8 @@ public class UndoLogController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-    //@RequiresPermissions("member:undolog:info")
-    public R info(@PathVariable("id") Long id){
-		UndoLogEntity undoLog = undoLogService.getById(id);
+    public R info(@PathVariable("id") Long id) {
+        UndoLogEntity undoLog = undoLogService.getById(id);
 
         return R.ok().put("undoLog", undoLog);
     }
@@ -58,9 +53,8 @@ public class UndoLogController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("member:undolog:save")
-    public R save(@RequestBody UndoLogEntity undoLog){
-		undoLogService.save(undoLog);
+    public R save(@RequestBody UndoLogEntity undoLog) {
+        undoLogService.save(undoLog);
 
         return R.ok();
     }
@@ -69,9 +63,8 @@ public class UndoLogController {
      * 修改
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("member:undolog:update")
-    public R update(@RequestBody UndoLogEntity undoLog){
-		undoLogService.updateById(undoLog);
+    public R update(@RequestBody UndoLogEntity undoLog) {
+        undoLogService.updateById(undoLog);
 
         return R.ok();
     }
@@ -80,9 +73,8 @@ public class UndoLogController {
      * 删除
      */
     @RequestMapping("/delete")
-    //@RequiresPermissions("member:undolog:delete")
-    public R delete(@RequestBody Long[] ids){
-		undoLogService.removeByIds(Arrays.asList(ids));
+    public R delete(@RequestBody Long[] ids) {
+        undoLogService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

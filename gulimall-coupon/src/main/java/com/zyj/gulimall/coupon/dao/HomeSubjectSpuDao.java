@@ -6,12 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 专题商品
- * 
+ *
  * @author zyj
  * @email zyj@gmail.com
  * @date 2021-08-01 21:43:29
  */
 @Mapper
 public interface HomeSubjectSpuDao extends BaseMapper<HomeSubjectSpuEntity> {
-	
+
 }

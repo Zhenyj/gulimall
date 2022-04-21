@@ -22,6 +22,7 @@ public interface WareOrderTaskDetailService extends IService<WareOrderTaskDetail
 
     /**
      * 关闭
+     *
      * @param id
      * @param status
      */

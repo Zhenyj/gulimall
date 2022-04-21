@@ -17,8 +17,8 @@ import java.util.Map;
 /**
  * @author zyj
  * @create 2021-08-23 0:32
- *
- *         统一异常处理
+ * <p>
+ * 统一异常处理
  */
 @Slf4j
 //@ResponseBody
@@ -27,18 +27,19 @@ import java.util.Map;
 public class GulimallExceptionControllerAdvice {
 
     @ExceptionHandler(value = Throwable.class)
-    public R handleException(Throwable throwable){
+    public R handleException(Throwable throwable) {
         log.error("错误：", throwable);
-        return R.error(BizCodeEnum.UNKNOW_EXCEPTION.getCode(),BizCodeEnum.UNKNOW_EXCEPTION.getMsg());
+        return R.error(BizCodeEnum.UNKNOW_EXCEPTION.getCode(), BizCodeEnum.UNKNOW_EXCEPTION.getMsg());
     }
 
     /**
      * 数据校验异常
+     *
      * @param e
      * @return
      */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public R handleValidException (MethodArgumentNotValidException e) {
+    public R handleValidException(MethodArgumentNotValidException e) {
         //log.info("数据校验出现问题{},异常类型{}",e.getMessage(),e.getClass());
         BindingResult bindingResult = e.getBindingResult();
         // 1、获取校验错误结果

@@ -13,13 +13,14 @@ spring:
   redis:
     host: 192.168.136.10
     port: 6379
-    cache:
-      type: redis
-      redis:
-        time-to-live: 3600000
-        use-key-prefix: true #是否使用前缀
-        key-prefix: CACHE_ #前缀
-        cache-null-values: true #是否缓存空值，可以用去解决缓存穿透问题
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+      use-key-prefix: true #是否使用前缀
+      key-prefix: CACHE_ #前缀
+      cache-null-values: true #是否缓存空值，可以用去解决缓存穿透问题
+
   thymeleaf:
     cache: false
   session:

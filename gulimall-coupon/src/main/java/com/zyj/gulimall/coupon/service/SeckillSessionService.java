@@ -20,6 +20,7 @@ public interface SeckillSessionService extends IService<SeckillSessionEntity> {
 
     /**
      * 获取最近3天的秒杀活动
+     *
      * @return
      */
     List<SeckillSessionEntity> getLates3DaySession();

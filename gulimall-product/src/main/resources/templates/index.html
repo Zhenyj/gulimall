@@ -598,20 +598,14 @@
 </body>
 <script type="text/javascript">
     function search() {
-        var keyword = $("#searchText").val()
-        window.location.href = "http://search.gulimall.com/list.html?keyword=" + keyword;
+        var keyword = $("#searchText").val()    window.location.href = "http://search.gulimall.com/list.html?keyword=" + keyword;
     }
 
     $.get("http://seckill.gulimall.com/currentSeckillSkus", function (response) {
         if (response.data.length > 0) {
             response.data.forEach(function (item) {
-                $("<li onclick='toDetail(" + item.skuId + ")'></li>").append($("<img style='width: 130px; height: 130px' src='" + item.skuInfo.skuDefaultImg + "' />"))
-                    .append($("<p>" + item.skuInfo.skuTitle + "</p>"))
-                    .append($("<span>" + item.seckillPrice + "</span>"))
-                    .append($("<s>" + item.skuInfo.price + "</s>"))
-                    .appendTo("#seckillSkuContent");
-            })
-        }
+                $("<li onclick='toDetail(" + item.skuId + ")'></li>").append($("<img style='width: 130px; height: 130px' src='" + item.skuInfo.skuDefaultImg + "' />"))                .append($("<p>" + item.skuInfo.skuTitle + "</p>"))                .append($("<span>" + item.seckillPrice + "</span>"))                .append($("<s>" + item.skuInfo.price + "</s>"))                .appendTo("#seckillSkuContent");
+            })    }
     })
 
     function toDetail(skuId) {

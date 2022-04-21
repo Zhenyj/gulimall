@@ -55,8 +55,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<AttrEntity> page = this.page(
                 new Query<AttrEntity>().getPage(params),
-                new QueryWrapper<AttrEntity>()
-        );
+                new QueryWrapper<AttrEntity>());
 
         return new PageUtils(page);
     }
@@ -228,7 +227,6 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
      * @param attrgroupId
      * @return
      */
-    @Transactional
     @Override
     public PageUtils getNoRelationAttr(Map<String, Object> params, Long attrgroupId) {
         // 1、当前分组只能关联自己所属的分类里面的所有属性

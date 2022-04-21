@@ -16,13 +16,13 @@ import java.io.IOException;
 public class MyRedissonConfig {
 
 
-
     /**
      * 所有对Redisson的使用都是通过RedissonClient对象
+     *
      * @return
      * @throws IOException
      */
-    @Bean(destroyMethod="shutdown")
+    @Bean(destroyMethod = "shutdown")
     RedissonClient redisson() throws IOException {
         // 创建配置useClusterServers
         Config config = new Config();

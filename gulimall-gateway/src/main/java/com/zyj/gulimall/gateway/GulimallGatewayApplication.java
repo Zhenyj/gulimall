@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 @SpringBootApplication
 public class GulimallGatewayApplication {
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         SpringApplication.run(GulimallGatewayApplication.class, args);
     }
 

@@ -26,8 +26,7 @@ public class SmsComponent {
     public void sendSmsCode(String phone, String code) {
         // 开通服务后 买家中心-查看AppCode
         Map<String, String> headers = new HashMap<String, String>();
-        // 最后在header中的格式(中间是英文空格)
-        // 为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+        // 最后在header中的格式(中间是英文空格)    // 为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put("Authorization", "APPCODE " + appcode);
         Map<String, String> querys = new HashMap<String, String>();
         querys.put("content", "【创信】你的验证码是：5873，3分钟内有效！");

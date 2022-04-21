@@ -1,7 +1,9 @@
 package com.zyj.gulimall.coupon.service.impl;
 
 import org.springframework.stereotype.Service;
+
 import java.util.Map;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -20,8 +22,7 @@ public class SpuBoundsServiceImpl extends ServiceImpl<SpuBoundsDao, SpuBoundsEnt
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<SpuBoundsEntity> page = this.page(
                 new Query<SpuBoundsEntity>().getPage(params),
-                new QueryWrapper<SpuBoundsEntity>()
-        );
+                new QueryWrapper<SpuBoundsEntity>());
 
         return new PageUtils(page);
     }

@@ -28,6 +28,7 @@ public interface SkuSaleAttrValueDao extends BaseMapper<SkuSaleAttrValueEntity> 
 
     /**
      * 根据skuId获取销售属性键值对字符串列表
+     *
      * @param skuId
      * @return
      */

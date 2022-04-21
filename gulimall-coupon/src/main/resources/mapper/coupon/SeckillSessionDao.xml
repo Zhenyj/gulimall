@@ -19,8 +19,7 @@
     <select id="getLates3DaySession" resultType="com.zyj.gulimall.coupon.entity.SeckillSessionEntity">
         <include refid="selectSeckillSession"></include>
         FROM `sms_seckill_session`
-        WHERE `start_time` BETWEEN CURRENT_DATE AND DATE_SUB(DATE_ADD(CURRENT_DATE,INTERVAL 3 DAY),INTERVAL 1 SECOND)
-    </select>
+        WHERE `start_time` BETWEEN CURRENT_DATE AND DATE_SUB(DATE_ADD(CURRENT_DATE,INTERVAL 3 DAY),INTERVAL 1 SECOND)</select>
 
 
 </mapper>
