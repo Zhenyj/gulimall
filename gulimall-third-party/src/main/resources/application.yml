@@ -11,17 +11,17 @@ spring:
         dashboard: 192.168.136.10:8858
     alicloud:
       # 阿里巴巴对象存储OSS
-      access-key: LTAI5t8UkdrDyhgif4V3Ui1L
-      secret-key: 1aedjRQld2T9e6Ar84jGMpra43zbb4
+      access-key: xxxxxxxxx
+      secret-key: xxxxxxxxx
       oss:
-        endpoint: oss-cn-beijing.aliyuncs.com
+        endpoint: xxxxxxxxx
         bucket: gulimall-zhenyj
       # 短信接口配置
       sms:
-        host: https://cxkjsms.market.alicloudapi.com
-        path: /chuangxinsms/dxjk
+        host: xxxxxxxxx
+        path: xxxxxxxxx
         method: POST
-        appcode: a09cde2e61fe4f82988db28365c7e173
+        appcode: xxxxxxxxx
   zipkin:
     base-url: http://192.168.136.10:9411 # zipkin服务器地址端口
     discovery-client-enabled: false # 关闭服务发现，否则SpringCloud会把zipkin的url当做服务名称
