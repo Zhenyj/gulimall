@@ -48,6 +48,6 @@ class GulimallThirdPartyApplicationTests {
 
     @Test
     public void testSms() {
-        smsComponent.sendSmsCode("13685988379", "123456");
+        smsComponent.sendSmsCode("xxxxxxxxxxxxxxxxx", "xxxxxxxxxxxxxxxxx");
     }
 }
